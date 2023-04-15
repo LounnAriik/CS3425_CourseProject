@@ -4,7 +4,8 @@
 <html>
     <body>
         <form method="post" action="stuPassReset.php">
-            <input type ="input" value="New Password" name="newPass">
+            Please enter new password: <br>
+            <input type ="input" placeholder="New Password" name="newPass">
             <input type ="submit" value="Submit" name="submit">
         </form>
 </body>
