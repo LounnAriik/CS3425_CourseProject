@@ -78,7 +78,7 @@ function firstLoginInstructor($user){
 function stuPassReset($user, $password){
     try{
         $dbh = connectDB();
-        $statement = $dbh->prepare("update project_student set StuPass = :newPassword, FirstLogin=false where StuID = :user");
+        $statement = $dbh->prepare("update project_student set StuPassword = :newPassword, FirstLogin=false where StuID = :user");
         $statement->bindParam(":newPassword", $password);
         $statement->bindParam(":user", $user);
         $result = $statement->execute();
@@ -92,7 +92,7 @@ function stuPassReset($user, $password){
 function instPassReset($user, $password){
     try{
         $dbh = connectDB();
-        $statement = $dbh->prepare("update project_inst set InstPass = :newPassword, FirstLogin=false where InstID = :user");
+        $statement = $dbh->prepare("update project_inst set InstPassword = :newPassword, FirstLogin=false where InstID = :user");
         $statement->bindParam(":newPassword", $password);
         $statement->bindParam(":user", $user);
         $result = $statement->execute();
