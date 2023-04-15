@@ -15,7 +15,14 @@
                     
                     if(authenticateStudent($_POST["username"], $_POST["password"])==1){
                         $_SESSION["username"]=$_POST["username"];
-                        header("LOCATION:main.php");
+                        
+                        // Force the student to go to the reset password page if it's their first login.
+                        if (firstLoginStudent($_POST["username"]) == 1){
+                            header("LOCATION:stuPassReset.php");
+                        }
+                        else {
+                            header("LOCATION:stuMain.php");
+                        }    
                         return;
                     }else{
                         echo '<p style="color:red"> incorrect username and password</p>';
@@ -25,7 +32,14 @@
                     
                     if(authenticateInstructor($_POST["username"], $_POST["password"])==1){
                         $_SESSION["username"]=$_POST["username"];
-                        header("LOCATION:main.php");
+                        
+                        // Force the instructor to go to the reset password page if it's their first login.
+                        if (firstLoginInstructor($_POST["username"]) == 1){
+                            header("LOCATION:instPassReset.php");
+                        }
+                        else {
+                            header("LOCATION:instMain.php");
+                        } 
                         return;
                     }else{
                         echo '<p style="color:red"> incorrect username and password</p>';
