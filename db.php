@@ -26,7 +26,7 @@ function authenticateStudent($user, $password) {
 }
 
 //return number of rows matching the given user and passwd for instructor login.
-function authenticateStudent($user, $password) {
+function authenticateInstructor($user, $password) {
     try {
         $dbh = connectDB();
         $statement = $dbh->prepare("SELECT count(*) FROM project_instructor ".
