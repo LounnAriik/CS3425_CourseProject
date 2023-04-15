@@ -7,7 +7,7 @@ function connectDB()
     return $dbh;
 }
 //return number of rows matching the given user and passwd.
-function authenticate($user, $password, $selectedTable) {
+function authenticate($user, $password) {
     try {
         $dbh = connectDB();
         $statement = $dbh->prepare("SELECT count(*) FROM project_:selectedTable ".
