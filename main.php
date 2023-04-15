@@ -20,12 +20,6 @@
             }
         ?>
         
-        Welcome to our online minibank! <br>
-        We can help you to transfer the money or display your accounts <br>
-        What would you like to do? Please click one of the buttons<br>
-        <form method=post action=bankoperation.php>
-            <input type ="submit" value = "Transfer" name="transfer">
-            <input type="submit" value = "Accounts" name="accounts">
-        </form>
+        
     </body>
 </html>
