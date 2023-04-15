@@ -24,7 +24,7 @@
                 }
                
             ?>
-            <label for="username">HI:</label><br>
+            <label for="username">Username:</label><br>
             <input type="text" id="username" name="username"><br>
             <label for="password">Password:</label><br>
             <input type="text" id="password" name="password"><br>
