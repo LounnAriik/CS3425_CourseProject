@@ -1,8 +1,11 @@
 <?php
     require "db.php";
     session_start();
-    instPassReset($_POST["username"], $_POST["newPass"]);
-    header("LOCATION:stuMain.php");
+    if (isset($_POST["submit"])){
+        stuPassReset($_SESSION["username"], $_POST["newPass"]);
+        header("LOCATION:stuMain.php");
+    }
+
 ?>
 
 <html>
