@@ -3,7 +3,7 @@
 ?>
 <html>
     <body>
-        <form>
+        <form method="post" action="instPassReset.php">
             <input type ="input" value="New Password" name="newPass">
             <input type ="submit" value="Submit" name="submit">
         </form>
