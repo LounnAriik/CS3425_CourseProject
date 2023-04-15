@@ -11,6 +11,8 @@
                     header("LOCATION: login.php");
                     exit();
                     }
+
+                // Specical login for students.    
                 if(isset($_POST["stulogin"])) {
                     
                     if(authenticateStudent($_POST["username"], $_POST["password"])==1){
@@ -28,6 +30,8 @@
                         echo '<p style="color:red"> incorrect username and password</p>';
                     }
                 }
+
+                // Special login for instuctors.
                 if(isset($_POST["instlogin"])) {
                     
                     if(authenticateInstructor($_POST["username"], $_POST["password"])==1){
@@ -47,6 +51,7 @@
                 }
                
             ?>
+            
             <label for="username">Username:</label><br>
             <input type="text" id="username" name="username"><br>
             <label for="password">Password:</label><br>
