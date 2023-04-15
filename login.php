@@ -14,7 +14,7 @@
                     }
                 if(isset($_POST["login"])) {
                     
-                    if(authenticate($_POST["username"], $_POST["password"])==1){
+                    if(authenticate($_POST["username"], $_POST["password"], $_POST["loginOption"])==1){
                         $_SESSION["username"]=$_POST["username"];
                         header("LOCATION:main.php");
                         return;
@@ -29,6 +29,11 @@
             <label for="password">Password:</label><br>
             <input type="text" id="password" name="password"><br>
             <input type="submit" value="Submit" name="login">
+            <label>I am logging in as a:</label><br>
+            <input type="radio" id="a" name="loginOption" value="student">
+                <label for="1a">student</label><br>
+            <input type="radio" id="b" name="loginOption" value="instructor">
+                <label for="1b">instructor</label><br>
         </form>
     </body>
 </html>

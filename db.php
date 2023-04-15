@@ -10,9 +10,9 @@ function connectDB()
 function authenticate($user, $password, $selectedTable) {
     try {
         $dbh = connectDB();
-        $statement = $dbh->prepare("SELECT count(*) FROM :=selectedTable ".
+        $statement = $dbh->prepare("SELECT count(*) FROM project_:selectedTable ".
         "where username = :username and password = sha2(:password,256) ");
-        $statement->bindParam(":=selectedTable", $selectedTable);
+        $statement->bindParam(":selectedTable", $selectedTable);
         $statement->bindParam(":username", $user);
         $statement->bindParam(":password", $password);
         $result = $statement->execute();
