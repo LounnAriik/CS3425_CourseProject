@@ -43,6 +43,38 @@ function authenticateInstructor($user, $password) {
     }
 }
 
+function firstLoginStudent($user){
+    try {
+        $dbh = connectDB();
+        $statement = $dbh->prepare("SELECT count(*) FROM project_student ".
+        "where username = :username and FirstLogin = true ");
+        $statement->bindParam(":username", $user);
+        $result = $statement->execute();
+        $row=$statement->fetch();
+        $dbh=null;
+        return $row[0];
+    }catch (PDOException $e) {
+        print "Error!" . $e->getMessage() . "<br/>";
+        die();
+    }
+}
+
+function firstLoginInstructor($user){
+    try {
+        $dbh = connectDB();
+        $statement = $dbh->prepare("SELECT count(*) FROM project_instructor ".
+        "where username = :username and FirstLogin = true ");
+        $statement->bindParam(":username", $user);
+        $result = $statement->execute();
+        $row=$statement->fetch();
+        $dbh=null;
+        return $row[0];
+    }catch (PDOException $e) {
+        print "Error!" . $e->getMessage() . "<br/>";
+        die();
+    }
+}
+
 function get_accounts($user)
 {
     //connect to database
