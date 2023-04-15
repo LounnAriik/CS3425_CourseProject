@@ -47,7 +47,7 @@ function firstLoginStudent($user){
     try {
         $dbh = connectDB();
         $statement = $dbh->prepare("SELECT count(*) FROM project_student ".
-        "where username = :username and FirstLogin = true ");
+        "where StuID = :username and FirstLogin = true ");
         $statement->bindParam(":username", $user);
         $result = $statement->execute();
         $row=$statement->fetch();
@@ -63,7 +63,7 @@ function firstLoginInstructor($user){
     try {
         $dbh = connectDB();
         $statement = $dbh->prepare("SELECT count(*) FROM project_instructor ".
-        "where username = :username and FirstLogin = true ");
+        "where InstID = :username and FirstLogin = true ");
         $statement->bindParam(":username", $user);
         $result = $statement->execute();
         $row=$statement->fetch();
