@@ -12,7 +12,7 @@ function authenticateStudent($user, $password) {
     try {
         $dbh = connectDB();
         $statement = $dbh->prepare("SELECT count(*) FROM project_student ".
-        "where username = :username and password = sha2(:password,256) ");
+        "where username = :username and StuPassword = sha2(:password,256) ");
         $statement->bindParam(":username", $user);
         $statement->bindParam(":password", $password);
         $result = $statement->execute();
@@ -30,7 +30,8 @@ function authenticateInstructor($user, $password) {
     try {
         $dbh = connectDB();
         $statement = $dbh->prepare("SELECT count(*) FROM project_instructor ".
-        "where username = :username and password = sha2(:password,256) ");
+        "where username = :username and InstPassword = sha2(:password,256) ");
+        $statement->bindParam(":username", $user);
         $statement->bindParam(":password", $password);
         $result = $statement->execute();
         $row=$statement->fetch();
