@@ -3,7 +3,7 @@
     session_start();
     if (isset($_POST["submit"])){
         stuPassReset($_SESSION["username"], $_POST["newPass"]);
-        header("LOCATION:stuMain.php");
+        header("LOCATION:login.php");
     }
 
 ?>

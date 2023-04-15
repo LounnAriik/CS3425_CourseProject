@@ -3,7 +3,7 @@
     session_start();
     if (isset($_POST["submit"])){
         instPassReset($_SESSION["username"], $_POST["newPass"]);
-        header("LOCATION:instMain.php");
+        header("LOCATION:login.php");
     }    
 ?>
 
