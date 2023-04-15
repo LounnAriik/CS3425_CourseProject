@@ -7,11 +7,12 @@ function connectDB()
     return $dbh;
 }
 //return number of rows matching the given user and passwd.
-function authenticate($user, $password) {
+function authenticate($user, $password, $selectedTable) {
     try {
         $dbh = connectDB();
-        $statement = $dbh->prepare("SELECT count(*) FROM lab4_customer ".
+        $statement = $dbh->prepare("SELECT count(*) FROM :=selectedTable ".
         "where username = :username and password = sha2(:password,256) ");
+        $statement->bindParam(":=selectedTable", $selectedTable);
         $statement->bindParam(":username", $user);
         $statement->bindParam(":password", $password);
         $result = $statement->execute();
