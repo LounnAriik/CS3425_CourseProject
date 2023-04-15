@@ -1,8 +1,10 @@
 <?php
     require "db.php";
     session_start();
-
+    instPassReset($_POST["username"], $_POST["newPass"]);
+    header("LOCATION:instMain.php");
 ?>
+
 <html>
     <body>
         <form method="post" action="instPassReset.php">
