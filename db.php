@@ -8,8 +8,8 @@ function connectDB()
 }
 
 // Function to authenticate a student user
-// Parameters: Student ID and student password
-// Returns: 
+// Parameters: student ID and student password
+// Returns: the number of rows that match the query(0 --> invalid, 1 --> valid, 2+ --> other error)
 function authenticateStudent($user, $password) {
     try {
         $dbh = connectDB();
@@ -27,7 +27,9 @@ function authenticateStudent($user, $password) {
     }
 }
 
-//return number of rows matching the given user and passwd for instructor login.
+// Function to authenticate an instructor user
+// Parameters: instructor ID and instructor password
+// Returns: the number of rows that match the query(0 --> invalid, 1 --> valid, 2+ --> other error)
 function authenticateInstructor($user, $password) {
     try {
         $dbh = connectDB();
@@ -45,6 +47,9 @@ function authenticateInstructor($user, $password) {
     }
 }
 
+// Function to determine if it is a student user's first login
+// Parameters: student ID
+// Returns: the number of rows that match the query(0 --> not first login, 1 --> first login, 2+ --> other error)
 function firstLoginStudent($user){
     try {
         $dbh = connectDB();
@@ -61,6 +66,9 @@ function firstLoginStudent($user){
     }
 }
 
+// Function to determine if it is an instructor user's first login
+// Parameters: instructor ID
+// Returns: the number of rows that match the query(0 --> not first login, 1 --> first login, 2+ --> other error)
 function firstLoginInstructor($user){
     try {
         $dbh = connectDB();
@@ -77,6 +85,9 @@ function firstLoginInstructor($user){
     }
 }
 
+// Function to update a student user's password and set FirstLogin attribute to false
+// Parameters: student ID, new password to update student table with
+// Returns: nothing, this function only executes an update statement
 function stuPassReset($user, $password){
     try {
         $dbh = connectDB();
@@ -91,6 +102,9 @@ function stuPassReset($user, $password){
     }
 }
 
+// Function to update an instructor user's password and set FirstLogin attribute to false
+// Parameters: instructor ID, new password to update instructor table with
+// Returns: nothing, this function only executes an update statement
 function instPassReset($user, $password){
     try {
         $dbh = connectDB();
@@ -105,12 +119,13 @@ function instPassReset($user, $password){
     }
 }
 
-// 
+// Function to return all of the courses that an instructor user is currently teaching to display on InstMain.php
+// Parameters: instructor ID
+// Returns: the result of the query (table with CID, CName, and Credits)
 function getCoursesTeaching($user) {
-
     try {
         $dbh = connectDB();
-        $statement = $dbh->prepare("SELECT CID, Title, Credits name FROM project_teaches join project_course using (CID) 
+        $statement = $dbh->prepare("SELECT CID, CName, Credits name FROM project_teaches join project_course using (CID) 
         where InstID = :username ");
         $statement->bindParam(":username", $user);
         $statement->execute();
