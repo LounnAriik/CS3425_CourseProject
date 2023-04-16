@@ -141,5 +141,51 @@ function getCoursesTeaching($user) {
     }
 }
 
+// Function 
+function getCoursesTaking($user) {
+    try {
+        $dbh = connectDB();
+        $statement = $dbh->prepare(
+            "SELECT CID, CName, Credits, InstName, Time
+            from 
+                (project_enrollsIn join project_course using (CID)) join 
+                (project_instructor join project_teaches using (InstID)) using (CID)
+            where StuID = :studentID"
+        );
+        $statement->bindParam(":studentID", $user);
+        $statement->execute();
+        return $statement->fetchAll();
+        $dbh = null;
+    } catch (PDOException $e) {
+        print "Error!" . $e->getMessage() . "<br/>";
+        die();
+    }
+}
 
+// Function 
+function getCoursesNotTaking($user) {
+    try {
+        $dbh = connectDB();
+        $statement = $dbh->prepare(
+            "SELECT distinct CID, CName, Credits, InstName, Time
+            from 
+                (project_enrollsIn join project_course using (CID)) join 
+                (project_instructor join project_teaches using (InstID)) using (CID)
+                
+            where CID not in
+                (select CID
+                from 
+                    (project_enrollsIn join project_course using (CID)) join 
+                    (project_instructor join project_teaches using (InstID)) using (CID)
+                where StuID = :studentID)"
+        );
+        $statement->bindParam(":studentID", $user);
+        $statement->execute();
+        return $statement->fetchAll();
+        $dbh = null;
+    } catch (PDOException $e) {
+        print "Error!" . $e->getMessage() . "<br/>";
+        die();
+    }
+}
 ?>
