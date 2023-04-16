@@ -103,5 +103,23 @@ function instPassReset($user, $password){
     }
 }
 
+function getCoursesTeaching($user) {
+
+    //connect to database
+    //retrieve the data and display
+    try {
+        $dbh = connectDB();
+        $statement = $dbh->prepare("SELECT CID, Title, Credits name FROM project_teaches join project_course using (CID) 
+        where InstID = :username ");
+        $statement->bindParam(":username", $user);
+        $statement->execute();
+        return $statement->fetchAll();
+        $dbh = null;
+    } catch (PDOException $e) {
+        print "Error!" . $e->getMessage() . "<br/>";
+        die();
+    }
+}
+
 
 ?>
