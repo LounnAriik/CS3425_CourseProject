@@ -7,7 +7,9 @@ function connectDB()
     return $dbh;
 }
 
-//return number of rows matching the given user and passwd for student login.
+// Function to authenticate a student user
+// Parameters: Student ID and student password
+// Returns: 
 function authenticateStudent($user, $password) {
     try {
         $dbh = connectDB();
@@ -19,7 +21,7 @@ function authenticateStudent($user, $password) {
         $row=$statement->fetch();
         $dbh=null;
         return $row[0];
-    }catch (PDOException $e) {
+    } catch (PDOException $e) {
         print "Error!" . $e->getMessage() . "<br/>";
         die();
     }
@@ -37,7 +39,7 @@ function authenticateInstructor($user, $password) {
         $row=$statement->fetch();
         $dbh=null;
         return $row[0];
-    }catch (PDOException $e) {
+    } catch (PDOException $e) {
         print "Error!" . $e->getMessage() . "<br/>";
         die();
     }
@@ -53,7 +55,7 @@ function firstLoginStudent($user){
         $row=$statement->fetch();
         $dbh=null;
         return $row[0];
-    }catch (PDOException $e) {
+    } catch (PDOException $e) {
         print "Error!" . $e->getMessage() . "<br/>";
         die();
     }
@@ -69,44 +71,43 @@ function firstLoginInstructor($user){
         $row=$statement->fetch();
         $dbh=null;
         return $row[0];
-    }catch (PDOException $e) {
+    } catch (PDOException $e) {
         print "Error!" . $e->getMessage() . "<br/>";
         die();
     }
 }
 
 function stuPassReset($user, $password){
-    try{
+    try {
         $dbh = connectDB();
         $statement = $dbh->prepare("update project_student set StuPassword = sha2(:newPassword, 256), FirstLogin=false where StuID = :user");
         $statement->bindParam(":newPassword", $password);
         $statement->bindParam(":user", $user);
         $result = $statement->execute();
         $dbh=null;
-    }catch (PDOException $e) {
+    } catch (PDOException $e) {
         print "Error!" . $e->getMessage() . "<br/>";
         die();
     }
 }
 
 function instPassReset($user, $password){
-    try{
+    try {
         $dbh = connectDB();
         $statement = $dbh->prepare("update project_instructor set InstPassword = sha2(:newPassword, 256), FirstLogin=false where InstID = :user");
         $statement->bindParam(":newPassword", $password);
         $statement->bindParam(":user", $user);
         $result = $statement->execute();
         $dbh=null;
-    }catch (PDOException $e) {
+    } catch (PDOException $e) {
         print "Error!" . $e->getMessage() . "<br/>";
         die();
     }
 }
 
+// 
 function getCoursesTeaching($user) {
 
-    //connect to database
-    //retrieve the data and display
     try {
         $dbh = connectDB();
         $statement = $dbh->prepare("SELECT CID, Title, Credits name FROM project_teaches join project_course using (CID) 

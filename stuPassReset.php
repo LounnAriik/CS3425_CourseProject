@@ -3,26 +3,26 @@
     session_start();
 
     
-    if (isset($_POST["submit"])){
+    if (isset($_POST["submit"])) {
 
         // Verify the new password isn't empty. There are no additional password requirements
-        if(($_POST["newPass"])!=null){
+        if(($_POST["newPass"])!=null) {
 
             // Call the password reset function for students in db.php, display a success message
             stuPassReset($_SESSION["username"], $_POST["newPass"]);
             echo '<p style="color:green"> Your password was successfully reset</p>';
 
-        } else{
+        } else {
             echo '<p style="color:red"> Please enter a valid password</p>';
         }
     }
 
      // The login button redirects to the main login page (first verify the user actually submitted a new password)
-    if (isset($_POST["login"])){
+    if (isset($_POST["login"])) {
         
-        if (!isset($_POST["submit"])){
+        if (!isset($_POST["submit"])) {
             echo '<p style="color:red"> Click "Submit" to complete the password reset before clicking "Login"</p>';
-        } else{
+        } else {
             header("LOCATION:login.php");
         }
     } 
