@@ -110,7 +110,7 @@ function getCoursesTeaching($user) {
 
     try {
         $dbh = connectDB();
-        $statement = $dbh->prepare("SELECT CID, Title, Credits name FROM project_teaches join project_course using (CID) 
+        $statement = $dbh->prepare("SELECT CID, CName, Credits name FROM project_teaches join project_course using (CID) 
         where InstID = :username ");
         $statement->bindParam(":username", $user);
         $statement->execute();

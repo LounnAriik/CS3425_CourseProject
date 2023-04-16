@@ -45,5 +45,19 @@
             }
             echo "</table>";
         ?>
+        <?php
+            if(isset($_POST["course"])){
+
+            }
+        ?>
+        <br><br>
+        Please enter course first then click button
+        <form method="post" action="instMain.php">
+            <label for="course">Course:</label> 
+            <input type="text" id="course" name="course"><br>
+            <input type="submit" value="Review Survey Questions" name="surveyQuestions">
+            <input type="submit" value="Check Survey Result" name = "checkResult">
+            <input type="submit" value="Create Instructor Questions" name="createInstQuestions">
+        </form>
     </body>
 </html>
