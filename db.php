@@ -1,4 +1,8 @@
 <?php
+
+// Function to connect to the database, used in all other database functions
+// Parameters: nothing
+// Returns: $dbh variable for database connections
 function connectDB()
 {
     $config = parse_ini_file("db.ini");
