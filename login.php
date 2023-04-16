@@ -26,8 +26,21 @@
         color:black;
         font-family: "Raleway", sans-serif;
        }
-       input[type="submit"]{
+       input[type="text"], input[type="password"]{
         border:none;
+        border-bottom: 1px solid black; 
+       }
+       input[type="submit"]{
+        color:#fbfbfb;
+        font-family: Verdana;
+        border:none;
+        padding:12px;
+        cursor: pointer;
+        border-radius:20px;
+        background-image: linear-gradient(#21192C, #453750);
+       }
+       input[type="submit"]:hover{
+        box-shadow: 1px 1px 10px #453750;
        }
     </style>
     <body>
@@ -80,10 +93,10 @@
                
             ?>
             <h2>LOGIN</h2><br><br>
-            <label for="username">Username:</label><br>
-            <input type="text" id="username" name="username"><br><br>
-            <label for="password">Password:</label><br>
-            <input type="password" id="password" name="password"><br><br><br>
+            <label for="username">Username:</label><br><br>
+            <input type="text" id="username" name="username"><br><br><br>
+            <label for="password">Password:</label><br><br>
+            <input type="password" id="password" name="password"><br><br><br><br>
             <br>
             
             <input id="stuSubmit" type="submit" value="Student Login" name="stulogin">
