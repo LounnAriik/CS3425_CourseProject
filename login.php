@@ -2,6 +2,34 @@
     session_start();
 ?>
 <html>
+    <style>
+        body{
+            display: flex;
+            align-items:center;
+            justify-content:center;
+            background-image: linear-gradient(#21192C, #453750);
+        }
+       form{
+            padding: 50px;
+            height:400px;
+            background-color:#fbfbfb;
+            border-radius: 10px;
+            box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.9);
+       }
+       h2{
+        font-family: "Raleway Thin", sans-serif;
+        letter-spacing:3px;
+        text-align:center;
+        color:black;
+       }
+       label{
+        color:black;
+        font-family: "Raleway", sans-serif;
+       }
+       input[type="submit"]{
+        border:none;
+       }
+    </style>
     <body>
         <form method=post action=login.php>
             <?php
@@ -51,14 +79,15 @@
                 }
                
             ?>
-            
+            <h2>LOGIN</h2><br><br>
             <label for="username">Username:</label><br>
-            <input type="text" id="username" name="username"><br>
+            <input type="text" id="username" name="username"><br><br>
             <label for="password">Password:</label><br>
-            <input type="text" id="password" name="password"><br>
+            <input type="password" id="password" name="password"><br><br><br>
             <br>
-            <input type="submit" value="Student Login" name="stulogin">
-            <input type="submit" value="Instructor Login" name="instlogin">
+            
+            <input id="stuSubmit" type="submit" value="Student Login" name="stulogin">
+            <input id="instSubmit" type="submit" value="Instructor Login" name="instlogin">
 
         </form>
     </body>
