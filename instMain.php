@@ -1,4 +1,5 @@
-<?php
+<?php 
+require "db.php";
     session_start();
 ?>
 <html>
@@ -26,7 +27,7 @@
             }
         ?>
         <?php
-            require "db.php";
+           
             $classes = getCoursesTeaching($_SESSION["username"]);
         ?>
             <table>

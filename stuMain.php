@@ -2,6 +2,12 @@
     session_start();
 ?>
 <html>
+<style>
+        table,th,td{
+            border:1px solid black;
+            border-collapse:collapse;
+        }
+    </style>
     <body>
         <!-- Welcome message with logout button using the session username -->
         <?php     
@@ -23,7 +29,7 @@
         <!-- Created table for courses taking by student id using the username -->
         <?php
             require "db.php";
-            $classes = getCoursesTaking($_SESSION["username"]);
+            $courses = getCoursesTaking($_SESSION["username"]);
         ?>
             <table>
                 <tr>
@@ -34,7 +40,7 @@
                     <th>Survey Time</th>
                 </tr>
         <?php
-            foreach($classes as $row){
+            foreach($courses as $row){
                 echo "<tr>";
                 echo "<td>" . $row[0] . "</td>";
                 echo "<td>" . $row[1] . "</td>";
@@ -45,9 +51,9 @@
             }
             echo "</table>";
         ?>
+        <br>    
         <!-- Created table for courses not taken by student id using the username -->
         <?php
-            require "db.php";
             $classes = getCoursesNotTaking($_SESSION["username"]);
         ?>
             <table>
