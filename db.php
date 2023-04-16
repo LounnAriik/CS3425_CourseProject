@@ -17,8 +17,11 @@ function connectDB()
 function authenticateStudent($user, $password) {
     try {
         $dbh = connectDB();
-        $statement = $dbh->prepare("SELECT count(*) FROM project_student ".
-        "where StuID = :username and StuPassword = sha2(:password,256) ");
+        $statement = $dbh->prepare(
+            "select count(*) 
+            from project_student 
+            where StuID = :username and StuPassword = sha2(:password,256) "
+        );
         $statement->bindParam(":username", $user);
         $statement->bindParam(":password", $password);
         $result = $statement->execute();
@@ -37,8 +40,11 @@ function authenticateStudent($user, $password) {
 function authenticateInstructor($user, $password) {
     try {
         $dbh = connectDB();
-        $statement = $dbh->prepare("SELECT count(*) FROM project_instructor ".
-        "where InstID = :username and InstPassword = sha2(:password,256) ");
+        $statement = $dbh->prepare(
+            "select count(*) 
+            from project_instructor 
+            where InstID = :username and InstPassword = sha2(:password,256) "
+        );
         $statement->bindParam(":username", $user);
         $statement->bindParam(":password", $password);
         $result = $statement->execute();
@@ -57,8 +63,11 @@ function authenticateInstructor($user, $password) {
 function firstLoginStudent($user){
     try {
         $dbh = connectDB();
-        $statement = $dbh->prepare("SELECT count(*) FROM project_student ".
-        "where StuID = :username and FirstLogin = true ");
+        $statement = $dbh->prepare(
+            "select count(*)   
+            from project_student
+            where StuID = :username and FirstLogin = true "
+        );
         $statement->bindParam(":username", $user);
         $result = $statement->execute();
         $row=$statement->fetch();
@@ -76,8 +85,11 @@ function firstLoginStudent($user){
 function firstLoginInstructor($user){
     try {
         $dbh = connectDB();
-        $statement = $dbh->prepare("SELECT count(*) FROM project_instructor ".
-        "where InstID = :username and FirstLogin = true ");
+        $statement = $dbh->prepare(
+            "select count(*) 
+            from project_instructor 
+            where InstID = :username and FirstLogin = true"
+        );
         $statement->bindParam(":username", $user);
         $result = $statement->execute();
         $row=$statement->fetch();
@@ -95,7 +107,11 @@ function firstLoginInstructor($user){
 function stuPassReset($user, $password){
     try {
         $dbh = connectDB();
-        $statement = $dbh->prepare("update project_student set StuPassword = sha2(:newPassword, 256), FirstLogin=false where StuID = :user");
+        $statement = $dbh->prepare(
+            "update project_student 
+            set StuPassword = sha2(:newPassword, 256), FirstLogin=false 
+            where StuID = :user"
+        );
         $statement->bindParam(":newPassword", $password);
         $statement->bindParam(":user", $user);
         $result = $statement->execute();
@@ -112,7 +128,11 @@ function stuPassReset($user, $password){
 function instPassReset($user, $password){
     try {
         $dbh = connectDB();
-        $statement = $dbh->prepare("update project_instructor set InstPassword = sha2(:newPassword, 256), FirstLogin=false where InstID = :user");
+        $statement = $dbh->prepare(
+            "update project_instructor 
+            set InstPassword = sha2(:newPassword, 256), FirstLogin=false 
+            where InstID = :user"
+        );
         $statement->bindParam(":newPassword", $password);
         $statement->bindParam(":user", $user);
         $result = $statement->execute();
@@ -129,8 +149,11 @@ function instPassReset($user, $password){
 function getCoursesTeaching($user) {
     try {
         $dbh = connectDB();
-        $statement = $dbh->prepare("SELECT CID, CName, Credits name FROM project_teaches join project_course using (CID) 
-        where InstID = :username ");
+        $statement = $dbh->prepare(
+            "select CID, CName, Credits name 
+            from project_teaches join project_course using (CID) 
+            where InstID = :username"
+        );
         $statement->bindParam(":username", $user);
         $statement->execute();
         return $statement->fetchAll();
@@ -141,12 +164,14 @@ function getCoursesTeaching($user) {
     }
 }
 
-// Function 
+// Function to return all of the courses than a student user is currently enrolled in to display on StuMain.php
+// Parameters: student ID
+// Returns: the result of the query (table with CID, CName, Credits, InstName, and Time)
 function getCoursesTaking($user) {
     try {
         $dbh = connectDB();
         $statement = $dbh->prepare(
-            "SELECT CID, CName, Credits, InstName, Time
+            "select CID, CName, Credits, InstName, Time
             from 
                 (project_enrollsIn join project_course using (CID)) join 
                 (project_instructor join project_teaches using (InstID)) using (CID)
@@ -162,12 +187,14 @@ function getCoursesTaking($user) {
     }
 }
 
-// Function 
+// Function to return all of the courses than a student user is currently not enrolled in to display on StuMain.php
+// Parameters: student ID
+// Returns: the result of the query (table with CID, CName, Credits, InstName, and Time)
 function getCoursesNotTaking($user) {
     try {
         $dbh = connectDB();
         $statement = $dbh->prepare(
-            "SELECT distinct CID, CName, Credits, InstName, Time
+            "select distinct CID, CName, Credits, InstName, Time
             from 
                 (project_enrollsIn join project_course using (CID)) join 
                 (project_instructor join project_teaches using (InstID)) using (CID)
