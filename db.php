@@ -215,4 +215,58 @@ function getCoursesNotTaking($user) {
         die();
     }
 }
+
+// Function to return the full response rate for a specific course to display when "Check Survey Result" is clicked by an instructor
+// Parameters: course ID
+// Returns: the result of the query (table with CID, Number of Responses, Number of Students, and Response Rate)
+function getSurveyResponseRate($course) {
+    try {
+        $dbh = connectDB();
+        $statement = $dbh->prepare(
+            "select CID, Responses, Students, round((Responses/Students) * 100, 2) as ""Response Rate""
+            from (
+            
+                (select CID, count(*) as Students 
+                from project_enrollsIn
+                where CID = :courseID
+                group by CID) as t1
+            
+                join 
+            
+                (select CID, count(distinct(ResponseID)) as Responses
+                from project_choice natural join project_surveyResponse natural join project_instructor
+                where CID = :courseID) as t2
+                
+                using (CID)
+            )"
+        );
+        $statement->bindParam(":courseID", $course);
+        $statement->execute();
+        return $statement->fetchAll();
+        $dbh = null;
+    } catch (PDOException $e) {
+        print "Error!" . $e->getMessage() . "<br/>";
+        die();
+    }
+}
+
+// We probabably need to add the choiceID as well to the query return table (per sample in phase2.pdf)
+function getQuestionChoiceResponseRate($course, $question, $instructor) {
+    try {
+        $dbh = connectDB();
+        $statement = $dbh->prepare(
+            ""
+        );
+        $statement->bindParam(":courseID", $course);
+        $statement->bindParam(":questionID", $question);
+        $statement->bindParam(":instructorID", $instructor);
+        $statement->execute();
+        return $statement->fetchAll();
+        $dbh = null;
+    } catch (PDOException $e) {
+        print "Error!" . $e->getMessage() . "<br/>";
+        die();
+    }
+}
+
 ?>
