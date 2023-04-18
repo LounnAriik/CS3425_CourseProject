@@ -250,12 +250,33 @@ function getSurveyResponseRate($course) {
     }
 }
 
-// We probabably need to add the choiceID as well to the query return table (per sample in phase2.pdf)
+// Function to return the response rate for each answer selected of a specific question for a given course
+// Parameters: course ID, question ID, and instructor ID
+// Returns: the result of the query (table with Choice(A, B, C, etc.), Choice Text, Frequency, and Percent)
 function getQuestionChoiceResponseRate($course, $question, $instructor) {
     try {
         $dbh = connectDB();
         $statement = $dbh->prepare(
-            ""
+            "select Answer as Choice, AnswerText as ""Response Option"", round(ifnull(totals, 0)) as Frequency, round(round(ifnull(totals, 0)) / (select sum(totals) from 
+            (select Answer, count(*) / count(distinct(ChoiceID)) as totals
+            from project_choice natural join project_surveyResponse natural join project_instructor 
+            where CID = :courseID and InstID = :instructorID and QID = :questionID 
+            group by Answer) as t3), 2) * 100 as Percent
+        
+            from (
+                (select AnswerText, ChoiceID as Answer
+                from project_choice
+                where QID = :questionID) as t1
+            
+                left outer join
+            
+                (select Answer, count(*) / count(distinct(ChoiceID)) as totals
+                from project_choice natural join project_surveyResponse natural join project_instructor 
+                where CID = :courseID and InstID = :instructorID and QID = :questionID 
+                group by Answer) as t2
+            
+                using (Answer)
+            )"
         );
         $statement->bindParam(":courseID", $course);
         $statement->bindParam(":questionID", $question);
