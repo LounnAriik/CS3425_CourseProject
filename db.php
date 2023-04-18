@@ -290,4 +290,23 @@ function getQuestionChoiceResponseRate($course, $question, $instructor) {
     }
 }
 
+// 
+function getAllResponses($course, $question, $instructor) {
+    try {
+        $dbh = connectDB();
+        $statement = $dbh->prepare(
+            ""
+        );
+        $statement->bindParam(":courseID", $course);
+        $statement->bindParam(":questionID", $question);
+        $statement->bindParam(":instructorID", $instructor);
+        $statement->execute();
+        return $statement->fetchAll();
+        $dbh = null;
+    } catch (PDOException $e) {
+        print "Error!" . $e->getMessage() . "<br/>";
+        die();
+    }
+}
+
 ?>
