@@ -358,23 +358,21 @@ function getQuestionText($course, $question) {
 // Function to assign a student to a new course
 // Parameters: instructor ID, new password to update instructor table with
 // Returns: nothing, this function only executes an update statement
-// function registerForCourse($user, $course){
-//     try {
-//         $dbh = connectDB();
-//         $statement = $dbh->prepare(
-//             "update project_enrolledIn 
-//             set InstPassword = sha2(:newPassword, 256), FirstLogin=false 
-//             where InstID = :user"
-//         );
-//         $statement->bindParam(":user", $user);
-//         $statement->bindParam(":courseID", $course);
-//         $result = $statement->execute();
-//         $dbh=null;
-//     } catch (PDOException $e) {
-//         print "Error!" . $e->getMessage() . "<br/>";
-//         die();
-//     }
-// }
+function registerForCourse($user, $course){
+    try {
+        $dbh = connectDB();
+        $statement = $dbh->prepare(
+            "call assignStudent(:studentID, :courseID)"
+        );
+        $statement->bindParam(":studentID", $user);
+        $statement->bindParam(":courseID", $course);
+        $result = $statement->execute();
+        $dbh=null;
+    } catch (PDOException $e) {
+        print "Error!" . $e->getMessage() . "<br/>";
+        die();
+    }
+}
 
 
 ?>
