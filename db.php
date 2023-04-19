@@ -194,7 +194,7 @@ function getCoursesNotTaking($user) {
     try {
         $dbh = connectDB();
         $statement = $dbh->prepare(
-            "select distinct CID, CName, Credits, InstName, Time
+            "select distinct CID, CName, Credits, InstID, Department
             from 
                 (project_enrollsIn join project_course using (CID)) join 
                 (project_instructor join project_teaches using (InstID)) using (CID)
@@ -332,6 +332,29 @@ function getQuestionText($course, $question) {
         die();
     }
 }
+
+// Function to return only the question text for a specific question of a specific course
+// Parameters: course ID, question ID
+// Returns: the result of the query (table with question text)
+function getQuestionText($course, $question) {
+    try {
+        $dbh = connectDB();
+        $statement = $dbh->prepare(
+            "select distinct Title
+            from project_surveyResponse
+            where CID = :courseID and QID = :questionID"
+        );
+        $statement->bindParam(":courseID", $course);
+        $statement->bindParam(":questionID", $question);
+        $statement->execute();
+        return $statement->fetchAll();
+        $dbh = null;
+    } catch (PDOException $e) {
+        print "Error!" . $e->getMessage() . "<br/>";
+        die();
+    }
+}
+
 
 
 
