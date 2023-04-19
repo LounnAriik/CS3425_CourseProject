@@ -290,16 +290,18 @@ function getQuestionChoiceResponseRate($course, $question, $instructor) {
     }
 }
 
-// 
-function getAllResponses($course, $question, $instructor) {
+// Function to return all individual survey responses for a given course
+// Parameters: course ID
+// Returns: the result of the query (table with Response ID, Section, QID, Question Text, Choice Selected, Choice Text)
+function getAllIndividualSurveyResponses($course) {
     try {
         $dbh = connectDB();
         $statement = $dbh->prepare(
-            ""
+            "select ResponseID, project_surveyResponse.Section, QID, Title, Answer, AnswerText  
+            from project_surveyResponse join project_choice using (QID)
+            where Answer = ChoiceID and CID = :courseID"
         );
         $statement->bindParam(":courseID", $course);
-        $statement->bindParam(":questionID", $question);
-        $statement->bindParam(":instructorID", $instructor);
         $statement->execute();
         return $statement->fetchAll();
         $dbh = null;
@@ -308,5 +310,29 @@ function getAllResponses($course, $question, $instructor) {
         die();
     }
 }
+
+// Function to return only the question text for a specific question of a specific course
+// Parameters: course ID, question ID
+// Returns: the result of the query (table with question text)
+function getQuestionText($course, $question) {
+    try {
+        $dbh = connectDB();
+        $statement = $dbh->prepare(
+            "select distinct Title
+            from project_surveyResponse
+            where CID = :courseID and QID = :questionID"
+        );
+        $statement->bindParam(":courseID", $course);
+        $statement->bindParam(":questionID", $question);
+        $statement->execute();
+        return $statement->fetchAll();
+        $dbh = null;
+    } catch (PDOException $e) {
+        print "Error!" . $e->getMessage() . "<br/>";
+        die();
+    }
+}
+
+
 
 ?>
