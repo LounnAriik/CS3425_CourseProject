@@ -336,15 +336,16 @@ function getQuestionText($course, $question) {
 // Function to return only the question text for a specific question of a specific course
 // Parameters: course ID, question ID
 // Returns: the result of the query (table with question text)
-function getAllQuestionsAndQIDsForCourse($course) {
+function getAllQuestionsAndQIDsForCourse($course, $section) {
     try {
         $dbh = connectDB();
         $statement = $dbh->prepare(
             "select distinct QID, Section, Title
             from project_surveyResponse
-            where CID = :courseID"
+            where CID = :courseID and Section = :section"
         );
         $statement->bindParam(":courseID", $course);
+        $statement->bindParam(":section", $section);
         $statement->execute();
         return $statement->fetchAll();
         $dbh = null;
