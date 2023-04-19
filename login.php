@@ -40,7 +40,7 @@
         background-image: linear-gradient(#21192C, #453750);
        }
        input[type="submit"]:hover{
-        box-shadow: 1px 1px 10px #453750;
+        box-shadow: 1px 1px 5px #453750;
        }
     </style>
     <body>
@@ -68,7 +68,7 @@
                         }    
                         return;
                     }else{
-                        echo '<p style="color:red"> incorrect username and password</p>';
+                        echo '<p style="color:red;"> incorrect username and password</p>';
                     }
                 }
 
@@ -87,7 +87,7 @@
                         } 
                         return;
                     }else{
-                        echo '<p style="color:red"> incorrect username and password</p>';
+                        echo '<p style="color:red; position:relative; top:-20px"> incorrect username and password</p>';
                     }
                 }
                
@@ -103,5 +103,6 @@
             <input id="instSubmit" type="submit" value="Instructor Login" name="instlogin">
 
         </form>
+        
     </body>
 </html>

@@ -2,24 +2,59 @@
     session_start();
 ?>
 <html>
-<style>
+    <style>
         table,th,td{
             border:1px solid black;
             border-collapse:collapse;
+            margin:auto;
         }
+        body{
+            height:98%;
+            display: flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            background-image: linear-gradient(#21192C, #453750); 
+        }
+        #card{
+            background-color:#fbfbfb;
+            border-radius:10px;
+            padding:50px;
+            text-align:center;
+            box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.9);
+        }
+        input[type="submit"]{
+        color:#fbfbfb;
+        font-family: Verdana;
+        border:none;
+        padding:12px;
+        cursor: pointer;
+        border-radius:20px;
+        background-image: linear-gradient(#21192C, #453750);
+       }
+       input[type="submit"]:hover{
+        box-shadow: 1px 1px 5px #453750;
+       }
+       h2{
+        font-family: "Raleway Thin", sans-serif;
+        letter-spacing:2px;
+        text-align:center;
+        color:black;
+       }
     </style>
     <body>
+        <div id="card">
         <!-- Welcome message with logout button using the session username -->
         <?php     
             if(!isset($_SESSION["username"])) {
                header("LOCATION:login.php");
             } else {
-                echo '<p align="right"> Welcome ' . $_SESSION["username"].'</p>';
+                echo '<h2> Welcome ' . $_SESSION["username"].'</h2>';
         ?>
         
         <form method="post" action="login.php">
-            <p align="right">
-                <input type="submit" value="logout" name="logout">
+            <p >
+                <input type="submit" value="Logout" name="logout">
             </p>
         </form>
         
@@ -80,9 +115,10 @@
         Please enter course first then click button
         <form method="post" action="stuMain.php">
             <label for="course">Course ID:</label> 
-            <input type="text" id="course" name="course"><br>
+            <input type="text" id="course" name="course"><br><br>
             <input type="submit" value="Register new course" name="registerCourse">
             <input type="submit" value="Take Survey" name = "takeSurvey">
         </form>
+        </div>
     </body>
 </html>
