@@ -194,7 +194,7 @@ function getCoursesNotTaking($user) {
     try {
         $dbh = connectDB();
         $statement = $dbh->prepare(
-            "select distinct CID, CName, Credits, InstName, Time
+            "select distinct CID, CName, Credits, InstID, Department
             from 
                 (project_enrollsIn join project_course using (CID)) join 
                 (project_instructor join project_teaches using (InstID)) using (CID)
