@@ -223,7 +223,7 @@ function getSurveyResponseRate($course) {
     try {
         $dbh = connectDB();
         $statement = $dbh->prepare(
-            "select CID, Responses, Students, round((Responses/Students) * 100, 2) as ""Response Rate""
+            "select CID, Responses, Students, round((Responses/Students) * 100, 2)
             from (
             
                 (select CID, count(*) as Students 
@@ -257,7 +257,7 @@ function getQuestionChoiceResponseRate($course, $question, $instructor) {
     try {
         $dbh = connectDB();
         $statement = $dbh->prepare(
-            "select Answer as Choice, AnswerText as ""Response Option"", round(ifnull(totals, 0)) as Frequency, round(round(ifnull(totals, 0)) / (select sum(totals) from 
+            "select Answer as Choice, AnswerText, round(ifnull(totals, 0)) as Frequency, round(round(ifnull(totals, 0)) / (select sum(totals) from 
             (select Answer, count(*) / count(distinct(ChoiceID)) as totals
             from project_choice natural join project_surveyResponse natural join project_instructor 
             where CID = :courseID and InstID = :instructorID and QID = :questionID 

@@ -82,8 +82,11 @@ require "db.php";
             echo "</table>";
         ?>
         <?php
-            if(isset($_POST["course"])){
-
+            if(isset($_POST["checkResult"])){
+                if(($_POST["course"])!=null){
+                    $_SESSION["course"]=$_POST["course"];
+                    header("LOCATION:surveyResponse.php");                    
+                }
             }
         ?>
         <br><br>
