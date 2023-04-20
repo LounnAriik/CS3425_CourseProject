@@ -361,7 +361,7 @@ function registerForCourse($user, $course){
     try {
         $dbh = connectDB();
         $statement = $dbh->prepare(
-            "call assignStudent(:studentID, :courseID)"
+            "insert into project_enrollsIn values (StuID, CID)"
         );
         $statement->bindParam(":studentID", $user);
         $statement->bindParam(":courseID", $course);
