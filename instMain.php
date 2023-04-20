@@ -95,6 +95,19 @@ require "db.php";
                     echo '<p style="color:red;"> Please enter a class</p>';
                 }
             }
+            if(isset($_POST["surveyQuestions"])){
+                if(($_POST["course"])!=null){
+                    for($i=0;$i<sizeof($classes);$i++){
+                        if($classes[0][$i]==$_POST["course"]){
+                            $_SESSION["course"]=$_POST["course"];
+                            header("LOCATION:reviewSurveyQuestions.php");    
+                        }
+                    }
+                    echo '<p style="color:red; "> Please enter a valid class</p>';
+                }else{
+                    echo '<p style="color:red;"> Please enter a class</p>';
+                }
+            }
         ?>
         <br><br>
         Please enter course first then click button
