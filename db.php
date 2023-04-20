@@ -314,28 +314,6 @@ function getAllIndividualSurveyResponses($course) {
 // Function to return only the question text for a specific question of a specific course
 // Parameters: course ID, question ID
 // Returns: the result of the query (table with question text)
-function getQuestionText($course, $question) {
-    try {
-        $dbh = connectDB();
-        $statement = $dbh->prepare(
-            "select distinct Title
-            from project_surveyResponse
-            where CID = :courseID and QID = :questionID"
-        );
-        $statement->bindParam(":courseID", $course);
-        $statement->bindParam(":questionID", $question);
-        $statement->execute();
-        return $statement->fetchAll();
-        $dbh = null;
-    } catch (PDOException $e) {
-        print "Error!" . $e->getMessage() . "<br/>";
-        die();
-    }
-}
-
-// Function to return only the question text for a specific question of a specific course
-// Parameters: course ID, question ID
-// Returns: the result of the query (table with question text)
 function getAllQuestionsAndQIDsForCourse($course, $section) {
     try {
         $dbh = connectDB();
@@ -374,5 +352,25 @@ function registerForCourse($user, $course){
     }
 }
 
+// Function to return the question title and all question choices for a given question ID
+// Parameters: question ID
+// Returns: the result of the query (table with question title, choices (A, B, C, etc.), and choice answer text)
+function getQuestionTitleAndChoices($question) {
+    try {
+        $dbh = connectDB();
+        $statement = $dbh->prepare(
+            "select Title, ChoiceID, AnswerText 
+            from project_choice join project_question using (QID)
+            where QID = :questionID"
+        );
+        $statement->bindParam(":questionID", $question);
+        $statement->execute();
+        return $statement->fetchAll();
+        $dbh = null;
+    } catch (PDOException $e) {
+        print "Error!" . $e->getMessage() . "<br/>";
+        die();
+    }
+}
 
 ?>
