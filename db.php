@@ -313,7 +313,7 @@ function getAllIndividualSurveyResponses($course) {
 
 // Function to return only the question text for a specific question of a specific course
 // Parameters: course ID, question ID
-// Returns: the result of the query (table with question text)
+// Returns: the result of the query (table with question IDs, section, and question title)
 function getAllQuestionsAndQIDsForCourse($course, $section) {
     try {
         $dbh = connectDB();
@@ -324,6 +324,27 @@ function getAllQuestionsAndQIDsForCourse($course, $section) {
         );
         $statement->bindParam(":courseID", $course);
         $statement->bindParam(":section", $section);
+        $statement->execute();
+        return $statement->fetchAll();
+        $dbh = null;
+    } catch (PDOException $e) {
+        print "Error!" . $e->getMessage() . "<br/>";
+        die();
+    }
+}
+
+// Function to return the question title and all question choices for a given question ID
+// Parameters: question ID
+// Returns: the result of the query (table with question title, choices (A, B, C, etc.), and choice answer text)
+function getQuestionTitleAndChoices($question) {
+    try {
+        $dbh = connectDB();
+        $statement = $dbh->prepare(
+            "select Title, ChoiceID, AnswerText 
+            from project_choice join project_question using (QID)
+            where QID = :questionID"
+        );
+        $statement->bindParam(":questionID", $question);
         $statement->execute();
         return $statement->fetchAll();
         $dbh = null;
@@ -352,25 +373,6 @@ function registerForCourse($user, $course){
     }
 }
 
-// Function to return the question title and all question choices for a given question ID
-// Parameters: question ID
-// Returns: the result of the query (table with question title, choices (A, B, C, etc.), and choice answer text)
-function getQuestionTitleAndChoices($question) {
-    try {
-        $dbh = connectDB();
-        $statement = $dbh->prepare(
-            "select Title, ChoiceID, AnswerText 
-            from project_choice join project_question using (QID)
-            where QID = :questionID"
-        );
-        $statement->bindParam(":questionID", $question);
-        $statement->execute();
-        return $statement->fetchAll();
-        $dbh = null;
-    } catch (PDOException $e) {
-        print "Error!" . $e->getMessage() . "<br/>";
-        die();
-    }
-}
+
 
 ?>
