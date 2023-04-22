@@ -21,7 +21,9 @@
             box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.9);
             margin-top:10px;
        }
-
+       input{
+        margin:5px;
+       }
        label{
         color:black;
         font-family: "Raleway", sans-serif;
