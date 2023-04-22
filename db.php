@@ -373,6 +373,61 @@ function registerForCourse($user, $course){
     }
 }
 
+// Function to get the newest response ID, important for generating a new response ID for a new survey response
+// Parameters: none
+// Returns: the result of the query (table with 1 response ID)
+function getNewestResponseID(){
+    try {
+        $dbh = connectDB();
+        $statement = $dbh->prepare(
+            "select ResponseID 
+            from project_surveyResponse
+            order by ResponseID desc
+            limit 1;"
+        );
+        $result = $statement->execute();
+        return $statement->fetchAll();
+        $dbh=null;
+    } catch (PDOException $e) {
+        print "Error!" . $e->getMessage() . "<br/>";
+        die();
+    }
+}
+
+// Function to insert a new entry into the surveyResponse table
+// Parameters: all surveyResponse colummns
+// Returns: none
+function insertIntoSurveyResponseTable($rID, $qID, $cID, $cName, $department, $qTitle, $section, $answer) {
+    try {
+        $dbh = connectDB();
+        $statement = $dbh->prepare(
+            "insert into project_surveyResponse values(
+                :rID,
+                :qID,
+                :cID,
+                :cName,
+                :department,
+                :qTitle,
+                :section,
+                :answer
+            )"
+        );
+        $statement->bindParam(":rID", $rID);
+        $statement->bindParam(":qID", $qID);
+        $statement->bindParam(":cID", $cID);
+        $statement->bindParam(":cName", $cName);
+        $statement->bindParam(":department", $department);
+        $statement->bindParam(":qTitle", $qTitle);
+        $statement->bindParam(":section", $section);
+        $statement->bindParam(":answer", $answer);
+        $statement->execute();
+        $dbh = null;
+    } catch (PDOException $e) {
+        print "Error!" . $e->getMessage() . "<br/>";
+        die();
+    }
+}
+
 
 
 ?>
