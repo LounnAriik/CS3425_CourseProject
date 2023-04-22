@@ -48,7 +48,7 @@
         <?php
             // If a user is logged in, display a welcome message. Otherwise, immediately navigate to the login page to prevent unauthorized access
             if(!isset($_SESSION["username"])) {
-               header("LOCATION:login.php");
+                header("LOCATION:login.php");
             } else {
                 echo '<h2> Welcome ' . $_SESSION["username"].'</h2>';
         ?>
