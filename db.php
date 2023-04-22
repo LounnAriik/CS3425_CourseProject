@@ -19,68 +19,68 @@ function connectDB()
 // Parameters: none
 // Returns: none, only executes a SQL statement
 function setAutocommit(){
-    // try {
-    //     $dbh = connectDB();
-    //     $statement = $dbh->prepare(
-    //         "set autocommit = 0"
-    //     );
-    //     $result = $statement->execute();
-    //     $dbh = null;
-    // } catch (PDOException $e) {
-    //     print "Error!" . $e->getMessage() . "<br/>";
-    //     die();
-    // }
+    try {
+        $dbh = connectDB();
+        $statement = $dbh->prepare(
+            "set autocommit = 0"
+        );
+        $result = $statement->execute();
+        $dbh = null;
+    } catch (PDOException $e) {
+        print "Error!" . $e->getMessage() . "<br/>";
+        die();
+    }
 }
 
 // Helper function for transactions to set the isolation level
 // Parameters: none
 // Returns: none, only executes a SQL statement
 function setIsolationLevel(){
-    // try {
-    //     $dbh = connectDB();
-    //     $statement = $dbh->prepare(
-    //         "set session transaction isolation level serializable"
-    //     );
-    //     $result = $statement->execute();
-    //     $dbh = null;
-    // } catch (PDOException $e) {
-    //     print "Error!" . $e->getMessage() . "<br/>";
-    //     die();
-    // }
+    try {
+        $dbh = connectDB();
+        $statement = $dbh->prepare(
+            "set session transaction isolation level serializable"
+        );
+        $result = $statement->execute();
+        $dbh = null;
+    } catch (PDOException $e) {
+        print "Error!" . $e->getMessage() . "<br/>";
+        die();
+    }
 }
 
 // Helper function for transactions to begin a transaction
 // Parameters: none
 // Returns: none, only executes a SQL statement
 function beginTransaction(){
-    // try {
-    //     $dbh = connectDB();
-    //     $statement = $dbh->prepare(
-    //         "begin"
-    //     );
-    //     $result = $statement->execute();
-    //     $dbh = null;
-    // } catch (PDOException $e) {
-    //     print "Error!" . $e->getMessage() . "<br/>";
-    //     die();
-    // }
+    try {
+        $dbh = connectDB();
+        $statement = $dbh->prepare(
+            "begin"
+        );
+        $result = $statement->execute();
+        $dbh = null;
+    } catch (PDOException $e) {
+        print "Error!" . $e->getMessage() . "<br/>";
+        die();
+    }
 }
 
 // Helper function for transactions to commit a transaction
 // Parameters: none
 // Returns: none, only executes a SQL statement
 function commitTransaction(){
-    // try {
-    //     $dbh = connectDB();
-    //     $statement = $dbh->prepare(
-    //         "commit"
-    //     );
-    //     $result = $statement->execute();
-    //     $dbh = null;
-    // } catch (PDOException $e) {
-    //     print "Error!" . $e->getMessage() . "<br/>";
-    //     die();
-    // }
+    try {
+        $dbh = connectDB();
+        $statement = $dbh->prepare(
+            "commit"
+        );
+        $result = $statement->execute();
+        $dbh = null;
+    } catch (PDOException $e) {
+        print "Error!" . $e->getMessage() . "<br/>";
+        die();
+    }
 }
 
 // Function to authenticate a student user
@@ -188,11 +188,11 @@ function stuPassReset($user, $password){
         $statement->bindParam(":user", $user);
         
         // Wrap update statement in a transaction
-        //setAutocommit();
-        //setIsolationLevel();
-        //beginTransaction();
+        setAutocommit();
+        setIsolationLevel();
+        beginTransaction();
         $result = $statement->execute();
-        //commitTransaction();
+        commitTransaction();
 
         $dbh = null;
     } catch (PDOException $e) {
