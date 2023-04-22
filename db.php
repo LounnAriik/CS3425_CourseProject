@@ -108,9 +108,13 @@ function stuPassReset($user, $password){
     try {
         $dbh = connectDB();
         $statement = $dbh->prepare(
-            "update project_student 
+            "set autocommit = 0;
+            set session isolation level serializable;
+            begin;
+            update project_student 
             set StuPassword = sha2(:newPassword, 256), FirstLogin=false 
-            where StuID = :user"
+            where StuID = :user;
+            commit;"
         );
         $statement->bindParam(":newPassword", $password);
         $statement->bindParam(":user", $user);
