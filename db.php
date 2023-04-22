@@ -188,11 +188,11 @@ function stuPassReset($user, $password){
         $statement->bindParam(":user", $user);
         
         // Wrap update statement in a transaction
-        setAutocommit();
-        setIsolationLevel();
-        beginTransaction();
+        //setAutocommit();
+        //setIsolationLevel();
+        //beginTransaction();
         $result = $statement->execute();
-        commitTransaction();
+        //commitTransaction();
 
         $dbh = null;
     } catch (PDOException $e) {
