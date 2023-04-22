@@ -450,5 +450,25 @@ function getInfoForInsertingResponse($qID, $cID){
     }
 }
 
+// Function to update the response time attribute of the enrolls in table when a student submits a survey
+// Parameters: student ID, course ID
+// Returns: none
+function updateSurveyTime($sID, $cID) {
+    try {
+        $dbh = connectDB();
+        $statement = $dbh->prepare(
+            "update project_enrollsIn set Time = Now()
+            where StuID = :sID and CID = :cID"
+        );
+        $statement->bindParam(":sID", $sID);
+        $statement->bindParam(":cID", $cID);
+        $statement->execute();
+        $dbh = null;
+    } catch (PDOException $e) {
+        print "Error!" . $e->getMessage() . "<br/>";
+        die();
+    }
+}
+
 
 ?>
