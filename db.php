@@ -29,7 +29,7 @@ function setIsolationLevel(){
     try {
         $dbh = connectDB();
         $statement = $dbh->prepare(
-            "set session isolation level serializable"
+            "set session transaction isolation level serializable"
         );
         $result = $statement->execute();
         $dbh=null;
@@ -205,7 +205,7 @@ function instPassReset($user, $password){
         beginTransaction();
         $result = $statement->execute();
         commitTransaction();
-        
+
         $dbh=null;
     } catch (PDOException $e) {
         print "Error!" . $e->getMessage() . "<br/>";
