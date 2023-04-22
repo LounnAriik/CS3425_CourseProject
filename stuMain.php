@@ -1,4 +1,5 @@
 <?php
+    require "db.php";
     session_start();
 ?>
 <html>
@@ -44,8 +45,8 @@
     </style>
     <body>
         <div id="card">
-        <!-- Welcome message with logout button using the session username -->
         <?php     
+            // If a user is logged in, display a welcome message. Otherwise, immediately navigate to the login page to prevent unauthorized access
             if(!isset($_SESSION["username"])) {
                header("LOCATION:login.php");
             } else {
@@ -61,9 +62,9 @@
         <?php
             }
         ?>
-        <!-- Created table for courses taking by student id using the username -->
+        
         <?php
-            require "db.php";
+            // Display all of the courses the student is enrolled in using the associated db.php function and display the results 
             $courses = getCoursesTaking($_SESSION["username"]);
         ?>
             <table>
@@ -87,10 +88,13 @@
             echo "</table>";
         ?>
         <br>    
-        <!-- Created table for courses not taken by student id using the username -->
+        
         <?php
+            // Display all of the courses the student is not enrolled in using the associated db.php function and display the results
             $classes = getCoursesNotTaking($_SESSION["username"]);
-            if($classes!=null){
+
+            // Prevent the table headers from showing the there are no classes to display
+            if($classes != null){
 
             ?>
                 <table>
@@ -104,10 +108,9 @@
                 <?php
             }
         ?>
-        
-            
+         
         <?php
-            foreach($classes as $row){
+            foreach($classes as $row) {
                 echo "<tr>";
                 echo "<td>" . $row[0] . "</td>";
                 echo "<td>" . $row[1] . "</td>";
@@ -118,40 +121,58 @@
             }
             echo "</table>";
 
-            if(isset($_POST["registerCourse"])){
-                if(($_POST["course"])!=null){
-                    for($i=0;$i<sizeof($classes);$i++){
-                        if($classes[$i][0]==$_POST["course"]){
-                            $_SESSION["course"]=$_POST["course"];
+            // Once the "Register For Course" button is clicked
+            if(isset($_POST["registerCourse"])) {
+
+                // Verify that the user entered in a course before attempting to check results
+                if(($_POST["course"]) != null) {
+
+                    // Loop through all of the classes the student is enrolled in to verify the course entered is valid
+                    for($i = 0; $i < sizeof($classes); $i++) {
+
+                        // Only navigate to the registration success page if the course entered matches a course the student is enrolled in
+                        if($classes[$i][0] == $_POST["course"]) {
+                            $_SESSION["course"] = $_POST["course"];
+
+                            // Call the db.php method to update the enrollsIn db table accordingly (using transaction)
                             registerForCourse($_SESSION["username"],$_POST["course"]);
                             header("LOCATION:registerPage.php");    
                         }
                     }
                     echo '<p style="color:red; "> Please enter a valid class</p>';
-                }else{
+                } else {
                     echo '<p style="color:red;"> Please enter a class</p>';
                 }
             }
-            if(isset($_POST["takeSurvey"])){
-                if(($_POST["course"])!=null){
-                    for($i=0;$i<sizeof($courses);$i++){
-                        if($courses[$i][0]==$_POST["course"]){
-                            if($courses[$i][4]=="N/A"){
-                                $_SESSION["course"]=$_POST["course"];
+
+            // Once the "Take Survey" button is clicked
+            if(isset($_POST["takeSurvey"])) {
+
+                // Verify that the user entered in a course before attempting to check results
+                if(($_POST["course"]) != null) {
+
+                    // Loop through all of the classes the student is enrolled in to verify the course entered is valid
+                    for($i = 0; $i < sizeof($courses); $i++) {
+
+                        // Only potentially navigate to the take survey page if the course entered matches a course the student is enrolled in
+                        if($courses[$i][0] == $_POST["course"]) {
+
+                            // verify that the student is not attempting to enter a duplicate survey. The time is "N/A" for all not yet completed surveys
+                            if($courses[$i][4] == "N/A") {
+                                $_SESSION["course"] = $_POST["course"];
                                 header("LOCATION:takeSurvey.php"); 
-                            }else{
+                            } else {
                                 echo '<p style="color:red;"> You cannot take another survey </p>';   
-                            
-                            }
-                               
+                            }    
                         }
                     }
                     echo '<p style="color:red; "> Please enter a valid class</p>';
-                }else{
+                } else {
                     echo '<p style="color:red;"> Please enter a class</p>';
                 }
             }
         ?>
+        
         <br><br>
         Please enter course first then click button
         <form method="post" action="stuMain.php">

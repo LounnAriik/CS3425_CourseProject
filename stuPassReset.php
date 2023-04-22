@@ -2,19 +2,19 @@
     require "db.php";
     session_start();
 
+    // Once the "Submit" button is clicked
     if (isset($_POST["submit"])) {
 
         // Verify the new password isn't empty. There are no additional password requirements
-        if(($_POST["newPass"])!=null) {
+        if(($_POST["newPass"]) != null) {
 
-            // Call the password reset function for instructors in db.php, display a success message
+            // Call the password reset function for students in db.php to update the password and naviagte to the reset success page
             stuPassReset($_SESSION["username"], $_POST["newPass"]);
             header("LOCATION:passResetSuccess.php");          
         } else {
             echo '<p style="color:red; position:absolute"> Please enter a valid password</p>';
         }   
     }
-
 ?>
 
 <html>
@@ -69,7 +69,6 @@
             <h2>Password Reset</h2> <br>
             <input type ="text" placeholder="New Password" name="newPass"><br><br>
             <input type ="submit" value="Submit" name="submit">
-
         </form>
 </body>
 </html>

@@ -490,5 +490,4 @@ function updateSurveyTime($sID, $cID) {
     }
 }
 
-
 ?>
