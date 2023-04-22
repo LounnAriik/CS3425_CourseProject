@@ -20,7 +20,7 @@
             for($i = 0; $i < sizeof($Uquestion); $i++) {
 
                 // Number the question and display the question title
-                echo $i+1 . ": " . $Uquestion[$i][2] . "<br>";
+                echo $i + 1 . ": " . $Uquestion[$i][2] . "<br>";
 
                 // Retrieve all of the choice IDs and answer choices associated with the current question ID
                 $temp = getQuestionTitleAndChoices($Uquestion[$i][0],$_SESSION["username"]);
@@ -41,7 +41,7 @@
             for($i = 0; $i < sizeof($Dquestion); $i++) {
 
                 // Number the question and display the question title
-                echo $i+1 . ": " . $Dquestion[$i][2] . "<br>";
+                echo $i + 1 . ": " . $Dquestion[$i][2] . "<br>";
 
                 // Retrieve all of the choice IDs and answer choices associated with the current question ID
                 $temp = getQuestionTitleAndChoices($Dquestion[$i][0],$_SESSION["username"]);
@@ -62,7 +62,7 @@
             for($i = 0; $i < sizeof($Iquestion); $i++) {
 
                 // Number the question and display the question title
-                echo $i+1 . ": " . $Iquestion[$i][2] . "<br>";
+                echo $i + 1 . ": " . $Iquestion[$i][2] . "<br>";
 
                 // Retrieve all of the choice IDs and answer choices associated with the current question ID
                 $temp = getQuestionTitleAndChoices($Iquestion[$i][0],$_SESSION["username"]);
