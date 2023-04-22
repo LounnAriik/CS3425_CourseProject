@@ -6,15 +6,49 @@
     $Iquestion = getAllQuestionsAndQIDsForCourse($_SESSION["course"], "Instructor");
 ?>
 <html>
+<style>
+        body{
+            display: flex;
+            align-items:center;
+            justify-content:center;
+            background-image: linear-gradient(#21192C, #453750);
+        }
+       form{
+            padding: 50px;
+            height:fit-content;
+            background-color:#fbfbfb;
+            border-radius: 10px;
+            box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.9);
+            margin-top:10px;
+       }
+
+       label{
+        color:black;
+        font-family: "Raleway", sans-serif;
+       }
+
+       input[type="submit"]{
+        color:#fbfbfb;
+        margin-top:10px;
+        font-family: Verdana;
+        border:none;
+        padding:12px;
+        cursor: pointer;
+        border-radius:20px;
+        background-image: linear-gradient(#21192C, #453750);
+       }
+       input[type="submit"]:hover{
+        box-shadow: 1px 1px 5px #453750;
+       }
+       </style>
     <body>
-        <?php
-        echo "<h1> Survey Questions for " . $_SESSION["course"] . "</h2>";
-            if($Uquestion!=null){
-                echo "<h2> University Questions: </h2>";
-            }
-            ?>
+        
             <form method="post" action="takeSurvey.php">
-            <?php
+        <?php
+                echo "<h1> Survey Questions for " . $_SESSION["course"] . "</h2>";
+                    if($Uquestion!=null){
+                        echo "<h2> University Questions: </h2>";
+                    }
             for($i=0;$i<sizeof($Uquestion);$i++){
                 echo $i+1 . ": " . $Uquestion[$i][2] . "<br>";
                 $temp = getQuestionTitleAndChoices($Uquestion[$i][0],$_SESSION["username"]);
