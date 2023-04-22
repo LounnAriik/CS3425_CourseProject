@@ -11,6 +11,62 @@ function connectDB()
     return $dbh;
 }
 
+function setAutocommit(){
+    try {
+        $dbh = connectDB();
+        $statement = $dbh->prepare(
+            "set autocommit = 0"
+        );
+        $result = $statement->execute();
+        $dbh=null;
+    } catch (PDOException $e) {
+        print "Error!" . $e->getMessage() . "<br/>";
+        die();
+    }
+}
+
+function setIsolationLevel(){
+    try {
+        $dbh = connectDB();
+        $statement = $dbh->prepare(
+            "set session isolation level serializable"
+        );
+        $result = $statement->execute();
+        $dbh=null;
+    } catch (PDOException $e) {
+        print "Error!" . $e->getMessage() . "<br/>";
+        die();
+    }
+}
+
+function beginTransaction(){
+    try {
+        $dbh = connectDB();
+        $statement = $dbh->prepare(
+            "begin"
+        );
+        $result = $statement->execute();
+        $dbh=null;
+    } catch (PDOException $e) {
+        print "Error!" . $e->getMessage() . "<br/>";
+        die();
+    }
+}
+
+function commitTransaction(){
+    try {
+        $dbh = connectDB();
+        $statement = $dbh->prepare(
+            "commit"
+        );
+        $result = $statement->execute();
+        $dbh=null;
+    } catch (PDOException $e) {
+        print "Error!" . $e->getMessage() . "<br/>";
+        die();
+    }
+}
+
 // Function to authenticate a student user
 // Parameters: student ID and student password
 // Returns: the number of rows that match the query(0 --> invalid, 1 --> valid, 2+ --> other error)
@@ -108,17 +164,18 @@ function stuPassReset($user, $password){
     try {
         $dbh = connectDB();
         $statement = $dbh->prepare(
-            "set autocommit = 0;
-            set session isolation level serializable;
-            begin;
-            update project_student 
+            "update project_student 
             set StuPassword = sha2(:newPassword, 256), FirstLogin=false 
-            where StuID = :user;
-            commit;"
+            where StuID = :user"
         );
         $statement->bindParam(":newPassword", $password);
         $statement->bindParam(":user", $user);
+        
+        setAutocommit();
+        setIsolationLevel();
+        beginTransaction();
         $result = $statement->execute();
+        commitTransaction();
         $dbh=null;
     } catch (PDOException $e) {
         print "Error!" . $e->getMessage() . "<br/>";
