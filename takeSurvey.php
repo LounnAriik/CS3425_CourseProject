@@ -70,6 +70,7 @@
                         insertIntoSurveyResponseTable($newid,$x,$_SESSION["course"],$courseName, $deptName,$questionTemp,$sectionTemp, $_POST[$x]);
                     }
                 }
+                updateSurveyTime($_SESSION["username"],$_SESSION["course"]);
                 header("LOCATION:surveyCompletePage.php");
             }
             ?>

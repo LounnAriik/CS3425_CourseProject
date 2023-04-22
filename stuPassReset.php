@@ -9,17 +9,12 @@
 
             // Call the password reset function for instructors in db.php, display a success message
             stuPassReset($_SESSION["username"], $_POST["newPass"]);
-            echo '<p style="color:green; position:absolute; top:500px"> Your password was successfully reset</p>';
-            echo '<form method="post" action="stuPassReset.php"> <input type="submit" id= "login" value="Login" name="login">';
+            header("LOCATION:passResetSuccess.php");          
         } else {
             echo '<p style="color:red; position:absolute"> Please enter a valid password</p>';
         }   
     }
 
-    // The login buttons redirects to the main login page (first verify the user actually submitted a new password)
-    if (isset($_POST["login"])){
-         header("LOCATION:login.php");
-    } 
 ?>
 
 <html>
