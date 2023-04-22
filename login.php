@@ -1,5 +1,6 @@
 <?php
     session_start();
+    require "db.php";
 ?>
 <html>
     <style>
@@ -45,53 +46,56 @@
     </style>
     <body>
         <form method=post action=login.php>
+
             <?php
-            require "db.php";
+                // Once the "Logout" button is clicked, end the current session and navigate back to the login page
                 if (isset($_POST["logout"])) {
                     session_destroy();
                     header("LOCATION: login.php");
                     exit();
-                    }
+                }
 
-                // Specical login for students.    
+                // Once the specical login for students button is clicked   
                 if(isset($_POST["stulogin"])) {
                     
-                    if(authenticateStudent($_POST["username"], $_POST["password"])==1){
+                    // Verify the username/password combination is correct
+                    if(authenticateStudent($_POST["username"], $_POST["password"]) == 1){
                         $_SESSION["username"]=$_POST["username"];
                         
-                        // Force the student to go to the reset password page if it's their first login.
+                        // Force the student to go to the reset password page if it's their first login, otherwise navigate to the student main page
                         if (firstLoginStudent($_POST["username"]) == 1){
                             header("LOCATION:stuPassReset.php");
-                        }
-                        else {
+                        } else {
                             header("LOCATION:stuMain.php");
                         }    
-                        return;
-                    }else{
+                        return; 
+
+                    } else {
                         echo '<p style="color:red;"> incorrect username and password</p>';
                     }
                 }
 
-                // Special login for instuctors.
+                // Once the special login for instuctors button is clicked
                 if(isset($_POST["instlogin"])) {
                     
-                    if(authenticateInstructor($_POST["username"], $_POST["password"])==1){
+                    // Verify the username/password combination is correct
+                    if(authenticateInstructor($_POST["username"], $_POST["password"]) == 1){
                         $_SESSION["username"]=$_POST["username"];
                         
-                        // Force the instructor to go to the reset password page if it's their first login.
+                        // Force the instructor to go to the reset password page if it's their first login, otherwise navigate to the instructor main page
                         if (firstLoginInstructor($_POST["username"]) == 1){
                             header("LOCATION:instPassReset.php");
-                        }
-                        else {
+                        } else {
                             header("LOCATION:instMain.php");
                         } 
                         return;
-                    }else{
+
+                    } else {
                         echo '<p style="color:red; position:relative; top:-20px"> incorrect username and password</p>';
                     }
                 }
-               
             ?>
+
             <h2>LOGIN</h2><br><br>
             <label for="username">Username:</label><br><br>
             <input type="text" id="username" name="username"><br><br><br>
@@ -103,6 +107,5 @@
             <input id="instSubmit" type="submit" value="Instructor Login" name="instlogin">
 
         </form>
-        
     </body>
 </html>
