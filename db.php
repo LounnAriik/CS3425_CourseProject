@@ -318,7 +318,7 @@ function getAllQuestionsAndQIDsForCourse($course, $section) {
     try {
         $dbh = connectDB();
         $statement = $dbh->prepare(
-            "select distinct QID, Section, Title
+            "select distinct QID, Section, Title, Department, CName
             from project_surveyResponse
             where CID = :courseID and Section = :section"
         );
