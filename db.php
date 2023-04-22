@@ -1,7 +1,7 @@
 <?php
 
 // Function to connect to the database, used in all other database functions
-// Parameters: nothing
+// Parameters: none
 // Returns: $dbh variable for database connections
 function connectDB()
 {
@@ -11,6 +11,9 @@ function connectDB()
     return $dbh;
 }
 
+// Helper function for transactions to set the autocommit setting to 0
+// Parameters: none
+// Returns: none, only executes a SQL statement
 function setAutocommit(){
     try {
         $dbh = connectDB();
@@ -25,6 +28,9 @@ function setAutocommit(){
     }
 }
 
+// Helper function for transactions to set the isolation level
+// Parameters: none
+// Returns: none, only executes a SQL statement
 function setIsolationLevel(){
     try {
         $dbh = connectDB();
@@ -39,6 +45,9 @@ function setIsolationLevel(){
     }
 }
 
+// Helper function for transactions to begin a transaction
+// Parameters: none
+// Returns: none, only executes a SQL statement
 function beginTransaction(){
     try {
         $dbh = connectDB();
@@ -53,6 +62,9 @@ function beginTransaction(){
     }
 }
 
+// Helper function for transactions to commit a transaction
+// Parameters: none
+// Returns: none, only executes a SQL statement
 function commitTransaction(){
     try {
         $dbh = connectDB();
@@ -431,15 +443,18 @@ function registerForCourse($user, $course){
     try {
         $dbh = connectDB();
         $statement = $dbh->prepare(
-            "set autocommit = 0;
-            set session isolation level serializable;
-            begin;
-            insert into project_enrollsIn values (:studentID, :courseID, 'N/A');
-            commit;"
+            "insert into project_enrollsIn values (:studentID, :courseID, 'N/A')"
         );
         $statement->bindParam(":studentID", $user);
         $statement->bindParam(":courseID", $course);
+
+        // Wrap insert statement in a transaction
+        setAutocommit();
+        setIsolationLevel();
+        beginTransaction();
         $result = $statement->execute();
+        commitTransaction();
+
         $dbh=null;
     } catch (PDOException $e) {
         print "Error!" . $e->getMessage() . "<br/>";
@@ -475,10 +490,7 @@ function insertIntoSurveyResponseTable($rID, $qID, $cID, $cName, $department, $q
     try {
         $dbh = connectDB();
         $statement = $dbh->prepare(
-            "set autocommit = 0;
-            set session isolation level serializable;
-            begin;
-            insert into project_surveyResponse values(
+            "insert into project_surveyResponse values(
                 :rID,
                 :qID,
                 :cID,
@@ -487,8 +499,7 @@ function insertIntoSurveyResponseTable($rID, $qID, $cID, $cName, $department, $q
                 :qTitle,
                 :section,
                 :answer
-            );
-            commit;"
+            )"
         );
         $statement->bindParam(":rID", $rID);
         $statement->bindParam(":qID", $qID);
@@ -498,7 +509,14 @@ function insertIntoSurveyResponseTable($rID, $qID, $cID, $cName, $department, $q
         $statement->bindParam(":qTitle", $qTitle);
         $statement->bindParam(":section", $section);
         $statement->bindParam(":answer", $answer);
+
+        // Wrap insert statement in a transaction
+        setAutocommit();
+        setIsolationLevel();
+        beginTransaction();
         $statement->execute();
+        commitTransaction();
+
         $dbh = null;
     } catch (PDOException $e) {
         print "Error!" . $e->getMessage() . "<br/>";
@@ -535,16 +553,19 @@ function updateSurveyTime($sID, $cID) {
     try {
         $dbh = connectDB();
         $statement = $dbh->prepare(
-            "set autocommit = 0;
-            set session isolation level serializable;
-            begin;
-            update project_enrollsIn set Time = Now()
-            where StuID = :sID and CID = :cID;
-            commit;"
+            "update project_enrollsIn set Time = Now()
+            where StuID = :sID and CID = :cID"
         );
         $statement->bindParam(":sID", $sID);
         $statement->bindParam(":cID", $cID);
+
+        // Wrap update statement in a transaction
+        setAutocommit();
+        setIsolationLevel();
+        beginTransaction();
         $statement->execute();
+        commitTransaction();
+
         $dbh = null;
     } catch (PDOException $e) {
         print "Error!" . $e->getMessage() . "<br/>";
