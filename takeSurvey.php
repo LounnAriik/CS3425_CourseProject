@@ -54,12 +54,14 @@
 
             
             $temp = getNewestResponseID();
-            $newid = $temp[0][0];
+            $newid = $temp[0][0]+1;
             
+            echo "<input type ='submit' name='submit' value='Submit'>";
+            echo "</form>";
             if(isset($_POST["submit"])){
                 foreach(array_keys($_POST)as $x){
                     if($x!="submit"){
-                        $insertTemp = getInfoForInserting($x);
+                        $insertTemp = getInfoForInsertingResponse($x, $_SESSION["course"]);
                         $sectionTemp = $insertTemp[0][0];
                         $courseName = $insertTemp[0][1];
                         $deptName = $insertTemp[0][2];
@@ -68,6 +70,9 @@
                         insertIntoSurveyResponseTable($newid,$x,$_SESSION["course"],$courseName, $deptName,$questionTemp,$sectionTemp, $_POST[$x]);
                     }
                 }
+                updateSurveyTime($_SESSION["username"],$_SESSION["course"]);
+                header("LOCATION:surveyCompletePage.php");
             }
-            echo "<input type ='submit' name='submit' value='Submit'";
-            echo "</form>";
+            ?>
+    </body>
+</html>

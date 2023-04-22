@@ -121,7 +121,7 @@
             if(isset($_POST["registerCourse"])){
                 if(($_POST["course"])!=null){
                     for($i=0;$i<sizeof($classes);$i++){
-                        if($classes[0][$i]==$_POST["course"]){
+                        if($classes[$i][0]==$_POST["course"]){
                             $_SESSION["course"]=$_POST["course"];
                             registerForCourse($_SESSION["username"],$_POST["course"]);
                             header("LOCATION:registerPage.php");    
@@ -135,9 +135,15 @@
             if(isset($_POST["takeSurvey"])){
                 if(($_POST["course"])!=null){
                     for($i=0;$i<sizeof($courses);$i++){
-                        if($courses[0][$i]==$_POST["course"]){
-                            $_SESSION["course"]=$_POST["course"];
-                            header("LOCATION:takeSurvey.php");    
+                        if($courses[$i][0]==$_POST["course"]){
+                            if($courses[$i][4]=="N/A"){
+                                $_SESSION["course"]=$_POST["course"];
+                                header("LOCATION:takeSurvey.php"); 
+                            }else{
+                                echo '<p style="color:red;"> You cannot take another survey </p>';   
+                            
+                            }
+                               
                         }
                     }
                     echo '<p style="color:red; "> Please enter a valid class</p>';
