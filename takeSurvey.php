@@ -72,9 +72,8 @@
                     echo "<input name = " . $Uquestion[$i][0] . " type='radio' value=" . $row[1] . ">" . $row[1] . ": " . $row[2] . "</input><br>";
                 }
             }
-
             // Check if there are department questions associated with this course. If there are none, do not display the header for department questions
-            if($Dquestion ! null) {
+            if($Dquestion != null) {
                 echo "<h2> Department Questions: </h2>";
             }
 
