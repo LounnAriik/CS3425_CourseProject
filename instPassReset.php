@@ -10,16 +10,12 @@
 
             // Call the password reset function for instructors in db.php to update the password and naviagte to the reset success page
             instPassReset($_SESSION["username"], $_POST["newPass"]);
-            header("LOCATION:passResetSuccess.php"); 
+            header("LOCATION:passResetSuccess.php");          
         } else {
             echo '<p style="color:red; position:absolute"> Please enter a valid password</p>';
         }   
     }
 
-    // The login buttons redirects to the main login page (first verify the user actually submitted a new password)
-    if (isset($_POST["login"])){
-         header("LOCATION:login.php");
-    } 
 ?>
 
 <html>
