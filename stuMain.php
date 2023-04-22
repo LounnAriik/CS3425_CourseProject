@@ -90,15 +90,22 @@
         <!-- Created table for courses not taken by student id using the username -->
         <?php
             $classes = getCoursesNotTaking($_SESSION["username"]);
+            if($classes!=null){
+
+            ?>
+                <table>
+                    <tr>
+                        <th>C_ID</th>
+                        <th>Title</th>
+                        <th>Credit</th>
+                        <th>Instructor ID</th>
+                        <th>Department Name</th>
+                    </tr>
+                <?php
+            }
         ?>
-            <table>
-                <tr>
-                    <th>C_ID</th>
-                    <th>Title</th>
-                    <th>Credit</th>
-                    <th>Instructor</th>
-                    <th>Survey Time</th>
-                </tr>
+        
+            
         <?php
             foreach($classes as $row){
                 echo "<tr>";
@@ -110,6 +117,34 @@
                 echo "</tr>";
             }
             echo "</table>";
+
+            if(isset($_POST["registerCourse"])){
+                if(($_POST["course"])!=null){
+                    for($i=0;$i<sizeof($classes);$i++){
+                        if($classes[0][$i]==$_POST["course"]){
+                            $_SESSION["course"]=$_POST["course"];
+                            registerForCourse($_SESSION["username"],$_POST["course"]);
+                            header("LOCATION:registerPage.php");    
+                        }
+                    }
+                    echo '<p style="color:red; "> Please enter a valid class</p>';
+                }else{
+                    echo '<p style="color:red;"> Please enter a class</p>';
+                }
+            }
+            if(isset($_POST["takeSurvey"])){
+                if(($_POST["course"])!=null){
+                    for($i=0;$i<sizeof($courses);$i++){
+                        if($courses[0][$i]==$_POST["course"]){
+                            $_SESSION["course"]=$_POST["course"];
+                            header("LOCATION:takeSurvey.php");    
+                        }
+                    }
+                    echo '<p style="color:red; "> Please enter a valid class</p>';
+                }else{
+                    echo '<p style="color:red;"> Please enter a class</p>';
+                }
+            }
         ?>
         <br><br>
         Please enter course first then click button
