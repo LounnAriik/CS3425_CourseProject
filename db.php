@@ -133,9 +133,13 @@ function instPassReset($user, $password){
     try {
         $dbh = connectDB();
         $statement = $dbh->prepare(
-            "update project_instructor 
+            "set autocommit = 0;
+            set session isolation level serializable;
+            begin;
+            update project_instructor 
             set InstPassword = sha2(:newPassword, 256), FirstLogin=false 
-            where InstID = :user"
+            where InstID = :user;
+            commit;"
         );
         $statement->bindParam(":newPassword", $password);
         $statement->bindParam(":user", $user);
@@ -365,7 +369,11 @@ function registerForCourse($user, $course){
     try {
         $dbh = connectDB();
         $statement = $dbh->prepare(
-            "insert into project_enrollsIn values (:studentID, :courseID, 'N/A')"
+            "set autocommit = 0;
+            set session isolation level serializable;
+            begin;
+            insert into project_enrollsIn values (:studentID, :courseID, 'N/A');
+            commit;"
         );
         $statement->bindParam(":studentID", $user);
         $statement->bindParam(":courseID", $course);
@@ -405,7 +413,10 @@ function insertIntoSurveyResponseTable($rID, $qID, $cID, $cName, $department, $q
     try {
         $dbh = connectDB();
         $statement = $dbh->prepare(
-            "insert into project_surveyResponse values(
+            "set autocommit = 0;
+            set session isolation level serializable;
+            begin;
+            insert into project_surveyResponse values(
                 :rID,
                 :qID,
                 :cID,
@@ -414,7 +425,8 @@ function insertIntoSurveyResponseTable($rID, $qID, $cID, $cName, $department, $q
                 :qTitle,
                 :section,
                 :answer
-            )"
+            );
+            commit;"
         );
         $statement->bindParam(":rID", $rID);
         $statement->bindParam(":qID", $qID);
@@ -461,8 +473,12 @@ function updateSurveyTime($sID, $cID) {
     try {
         $dbh = connectDB();
         $statement = $dbh->prepare(
-            "update project_enrollsIn set Time = Now()
-            where StuID = :sID and CID = :cID"
+            "set autocommit = 0;
+            set session isolation level serializable;
+            begin;
+            update project_enrollsIn set Time = Now()
+            where StuID = :sID and CID = :cID;
+            commit;"
         );
         $statement->bindParam(":sID", $sID);
         $statement->bindParam(":cID", $cID);
