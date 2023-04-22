@@ -1,4 +1,8 @@
 <?php
+// This file contains all of the database functions for the project
+// Comments for the majority of the SQL queries are inside the "surveyResponses.sql" file from Phase 1
+
+
 
 // Function to connect to the database, used in all other database functions
 // Parameters: none
@@ -21,7 +25,7 @@ function setAutocommit(){
             "set autocommit = 0"
         );
         $result = $statement->execute();
-        $dbh=null;
+        $dbh = null;
     } catch (PDOException $e) {
         print "Error!" . $e->getMessage() . "<br/>";
         die();
@@ -38,7 +42,7 @@ function setIsolationLevel(){
             "set session transaction isolation level serializable"
         );
         $result = $statement->execute();
-        $dbh=null;
+        $dbh = null;
     } catch (PDOException $e) {
         print "Error!" . $e->getMessage() . "<br/>";
         die();
@@ -55,7 +59,7 @@ function beginTransaction(){
             "begin"
         );
         $result = $statement->execute();
-        $dbh=null;
+        $dbh = null;
     } catch (PDOException $e) {
         print "Error!" . $e->getMessage() . "<br/>";
         die();
@@ -72,7 +76,7 @@ function commitTransaction(){
             "commit"
         );
         $result = $statement->execute();
-        $dbh=null;
+        $dbh = null;
     } catch (PDOException $e) {
         print "Error!" . $e->getMessage() . "<br/>";
         die();
@@ -93,8 +97,8 @@ function authenticateStudent($user, $password) {
         $statement->bindParam(":username", $user);
         $statement->bindParam(":password", $password);
         $result = $statement->execute();
-        $row=$statement->fetch();
-        $dbh=null;
+        $row = $statement->fetch();
+        $dbh = null;
         return $row[0];
     } catch (PDOException $e) {
         print "Error!" . $e->getMessage() . "<br/>";
@@ -116,8 +120,8 @@ function authenticateInstructor($user, $password) {
         $statement->bindParam(":username", $user);
         $statement->bindParam(":password", $password);
         $result = $statement->execute();
-        $row=$statement->fetch();
-        $dbh=null;
+        $row = $statement->fetch();
+        $dbh = null;
         return $row[0];
     } catch (PDOException $e) {
         print "Error!" . $e->getMessage() . "<br/>";
@@ -138,8 +142,8 @@ function firstLoginStudent($user){
         );
         $statement->bindParam(":username", $user);
         $result = $statement->execute();
-        $row=$statement->fetch();
-        $dbh=null;
+        $row = $statement->fetch();
+        $dbh = null;
         return $row[0];
     } catch (PDOException $e) {
         print "Error!" . $e->getMessage() . "<br/>";
@@ -160,8 +164,8 @@ function firstLoginInstructor($user){
         );
         $statement->bindParam(":username", $user);
         $result = $statement->execute();
-        $row=$statement->fetch();
-        $dbh=null;
+        $row = $statement->fetch();
+        $dbh = null;
         return $row[0];
     } catch (PDOException $e) {
         print "Error!" . $e->getMessage() . "<br/>";
@@ -190,7 +194,7 @@ function stuPassReset($user, $password){
         $result = $statement->execute();
         commitTransaction();
 
-        $dbh=null;
+        $dbh = null;
     } catch (PDOException $e) {
         print "Error!" . $e->getMessage() . "<br/>";
         die();
@@ -218,7 +222,7 @@ function instPassReset($user, $password){
         $result = $statement->execute();
         commitTransaction();
 
-        $dbh=null;
+        $dbh = null;
     } catch (PDOException $e) {
         print "Error!" . $e->getMessage() . "<br/>";
         die();
