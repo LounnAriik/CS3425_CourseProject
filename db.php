@@ -383,7 +383,7 @@ function getNewestResponseID(){
             "select ResponseID 
             from project_surveyResponse
             order by ResponseID desc
-            limit 1;"
+            limit 1"
         );
         $result = $statement->execute();
         return $statement->fetchAll();
@@ -428,6 +428,27 @@ function insertIntoSurveyResponseTable($rID, $qID, $cID, $cName, $department, $q
     }
 }
 
+// Function to get additional information for inserting a new entry into the survey response table
+// Parameters: question ID and course ID
+// Returns: the result of the query (table with section, course name, department, and question title)
+function getInfoForInsertingResponse($qID, $cID){
+    try {
+        $dbh = connectDB();
+        $statement = $dbh->prepare(
+            "select distinct Section, CName, Department, Title
+            from project_surveyResponse
+            where QID = :qID and CID = :cID"
+        );
+        $statement->bindParam(":qID", $qID);
+        $statement->bindParam(":cID", $cID);
+        $result = $statement->execute();
+        return $statement->fetchAll();
+        $dbh=null;
+    } catch (PDOException $e) {
+        print "Error!" . $e->getMessage() . "<br/>";
+        die();
+    }
+}
 
 
 ?>
