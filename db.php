@@ -171,11 +171,13 @@ function stuPassReset($user, $password){
         $statement->bindParam(":newPassword", $password);
         $statement->bindParam(":user", $user);
         
+        // Wrap update statement in a transaction
         setAutocommit();
         setIsolationLevel();
         beginTransaction();
         $result = $statement->execute();
         commitTransaction();
+
         $dbh=null;
     } catch (PDOException $e) {
         print "Error!" . $e->getMessage() . "<br/>";
@@ -190,17 +192,20 @@ function instPassReset($user, $password){
     try {
         $dbh = connectDB();
         $statement = $dbh->prepare(
-            "set autocommit = 0;
-            set session isolation level serializable;
-            begin;
-            update project_instructor 
+            "update project_instructor 
             set InstPassword = sha2(:newPassword, 256), FirstLogin=false 
-            where InstID = :user;
-            commit;"
+            where InstID = :user"
         );
         $statement->bindParam(":newPassword", $password);
         $statement->bindParam(":user", $user);
+
+        // Wrap update statement in a transaction
+        setAutocommit();
+        setIsolationLevel();
+        beginTransaction();
         $result = $statement->execute();
+        commitTransaction();
+        
         $dbh=null;
     } catch (PDOException $e) {
         print "Error!" . $e->getMessage() . "<br/>";
