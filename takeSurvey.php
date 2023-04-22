@@ -20,7 +20,7 @@
                 $temp = getQuestionTitleAndChoices($Uquestion[$i][0],$_SESSION["username"]);
                     foreach($temp as $row){
                         
-                        echo "<input name = " . $Uquestion[$i][0] . " type='radio'>" . $row[1] . ": " . $row[2] . "</input><br>";
+                        echo "<input name = " . $Uquestion[$i][0] . " type='radio' value=" . $row[1] . ">" . $row[1] . ": " . $row[2] . "</input><br>";
   
                     }
             }
@@ -33,7 +33,7 @@
                 $temp = getQuestionTitleAndChoices($Dquestion[$i][0],$_SESSION["username"]);
                     foreach($temp as $row){
                         
-                        echo "<input name = " . $Dquestion[$i][0] . " type='radio'>" . $row[1] . ": " . $row[2] . "</input><br>";
+                        echo "<input name = " . $Dquestion[$i][0] . " type='radio' value=" . $row[1] . ">" . $row[1] . ": " . $row[2] . "</input><br>";
   
                     }
             }
@@ -47,14 +47,25 @@
                 $temp = getQuestionTitleAndChoices($Iquestion[$i][0],$_SESSION["username"]);
                     foreach($temp as $row){
                         
-                        echo "<input name = " . $Iquestion[$i][0] . " type='radio'>" . $row[1] . ": " . $row[2] . "</input><br>";
+                        echo "<input name = " . $Iquestion[$i][0] . " type='radio' value=" . $row[1] . ">" . $row[1] . ": " . $row[2] . "</input><br>";
   
                     }
             }
+
+            
+            $temp = getNewestResponseID();
+            $newid = $temp[0][0];
+            
             if(isset($_POST["submit"])){
                 foreach(array_keys($_POST)as $x){
                     if($x!="submit"){
-                        
+                        $insertTemp = getInfoForInserting($x);
+                        $sectionTemp = $insertTemp[0][0];
+                        $courseName = $insertTemp[0][1];
+                        $deptName = $insertTemp[0][2];
+                        $questionTemp = $insertTemp[0][3];
+
+                        insertIntoSurveyResponseTable($newid,$x,$_SESSION["course"],$courseName, $deptName,$questionTemp,$sectionTemp, $_POST[$x]);
                     }
                 }
             }
