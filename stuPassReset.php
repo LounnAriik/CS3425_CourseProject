@@ -67,7 +67,7 @@
     <body>
         <form method="post" action="stuPassReset.php">
             <h2>Password Reset</h2> <br>
-            <input type ="text" placeholder="New Password" name="newPass"><br><br>
+            <input type ="text" placeholder="New Password" autocomplete="off" name="newPass"><br><br>
             <input type ="submit" value="Submit" name="submit">
         </form>
 </body>
