@@ -115,11 +115,7 @@
                     echo "<p>" . $row[1] . ": " . $row[2] . "</p>";
                 }
                 echo "</table>";
-                    foreach($temp as $row){
-                        
-                        echo "<p>" . $row[1] . ": " . $row[2] . "</p>";
-  
-                    }
+ 
             }
             if(isset($_POST["back"])){
                 header("LOCATION:instMain.php");
