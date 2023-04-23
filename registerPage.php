@@ -38,7 +38,14 @@
     <body>
     <form method="post" action="registerPage.php">
 <?php
+    session_start();
+    
     echo '<p style="color:green;"> You have been successfully registered for the course </p>';
+
+    // Verify the user has already logged in. If not, redirect them to login.php immediately
+    if(!isset($_SESSION["username"])) {
+        header("LOCATION:login.php");
+    }
 
     // Once the "Go Back" button is clicked, navigate to the student main page
     if(isset($_POST["back"])){

@@ -5,6 +5,11 @@
     $Dquestion = getAllQuestionsAndQIDsForCourse($_SESSION["course"], "Department");
     $Uquestion = getAllQuestionsAndQIDsForCourse($_SESSION["course"], "University");
     $Iquestion = getAllQuestionsAndQIDsForCourse($_SESSION["course"], "Instructor");
+
+    // Verify the user has already logged in. If not, redirect them to login.php immediately
+    if(!isset($_SESSION["username"])) {
+           header("LOCATION:login.php");
+    }
 ?>
 
 <html>

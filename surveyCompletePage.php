@@ -37,14 +37,22 @@
        </style>
     <body>
     <form method="post" action="surveyCompletePage.php">
-        <?php
-    echo '<p style="color:green;"> Your survey is complete</p>';
 
-    // Once the "Go Home" button has been clicked, navigate to to the student main page
-    if(isset($_POST["back"])){
-        header("LOCATION:stuMain.php");    
-    }
-?>
+    <?php
+        session_start();
+        
+        echo '<p style="color:green;"> Your survey is complete</p>';
+
+        // Verify the user has already logged in. If not, redirect them to login.php immediately
+        if(!isset($_SESSION["username"])) {
+            header("LOCATION:login.php");
+        }
+
+        // Once the "Go Home" button has been clicked, navigate to to the student main page
+        if(isset($_POST["back"])){
+            header("LOCATION:stuMain.php");    
+        }
+    ?>
 
 <html>
     <body>

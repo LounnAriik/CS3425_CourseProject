@@ -2,6 +2,11 @@
     require "db.php";
     session_start();
 
+    // Verify the user has already logged in. If not, redirect them to login.php immediately
+    if(!isset($_SESSION["username"])) {
+        header("LOCATION:login.php");
+    }
+
     // Once the "Submit" button is clicked
     if (isset($_POST["submit"])) {
 

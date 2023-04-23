@@ -49,6 +49,11 @@
         <?php
             echo "<h1> Survey Questions for " . $_SESSION["course"] . "</h2>";
 
+            // Verify the user has already logged in. If not, redirect them to login.php immediately
+            if(!isset($_SESSION["username"])) {
+                header("LOCATION:login.php");
+            }
+
             // Check if there are university questions associated with this course. If there are none, do not display the header for university questions
             if($Uquestion != null) {
                 echo "<h2> University Questions: </h2>";

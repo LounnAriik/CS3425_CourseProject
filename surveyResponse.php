@@ -8,6 +8,11 @@
     if(isset($_POST["back"])){
         header("LOCATION:instMain.php");
     }
+
+    // Verify the user has already logged in. If not, redirect them to login.php immediately
+    if(!isset($_SESSION["username"])) {
+        header("LOCATION:login.php");
+    }
 ?>
 
 <html>
