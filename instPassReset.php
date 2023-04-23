@@ -2,6 +2,10 @@
     require "db.php";
     session_start();
 
+    if(!isset($_SESSION["username"])) {
+        header("LOCATION:login.php");
+    }
+
     // Once the "Submit" button is clicked
     if (isset($_POST["submit"])) {
 
