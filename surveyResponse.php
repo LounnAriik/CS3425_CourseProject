@@ -21,14 +21,12 @@
             border:1px solid black;
             border-collapse:collapse;'
         }
-        table:not(#finalTable, #toptable){
+        table:not(#finalTable){
             position: relative;
             margin-bottom:15px;
             left:30px;
         }
-        #topTable{
-            margin:auto;
-        }
+ 
         body{
             display: flex;
             align-items:center;
@@ -66,6 +64,7 @@
         <?php
             // Display the overall response rate for the course 
             $course = getSurveyResponseRate($_SESSION["course"]);
+            echo "<h2>Survey Response Rate for " . $_SESSION["course"] . "</h2> ";
         ?>
 
         <table id = topTable>
