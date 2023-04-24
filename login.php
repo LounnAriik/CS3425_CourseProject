@@ -91,7 +91,7 @@
                         return;
 
                     } else {
-                        echo '<p style="color:red; position:relative; top:-20px"> incorrect username and password</p>';
+                        echo '<p style="color:red; position:relative; top:-20px"> Incorrect username and password</p>';
                     }
                 }
             ?>

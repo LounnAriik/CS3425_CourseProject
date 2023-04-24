@@ -1,13 +1,19 @@
 <?php
     session_start();
     require "db.php";
+
+    // Verify the user has already logged in. If not, redirect them to login.php immediately
+    if(!isset($_SESSION["username"])) {
+        header("LOCATION:login.php");
+    }
+
     $Dquestion = getAllQuestionsAndQIDsForCourse($_SESSION["course"], "Department");
     $Uquestion = getAllQuestionsAndQIDsForCourse($_SESSION["course"], "University");
     $Iquestion = getAllQuestionsAndQIDsForCourse($_SESSION["course"], "Instructor");
 ?>
 
 <html>
-<style>
+    <style>
         body{
             display: flex;
             align-items:center;
@@ -43,16 +49,11 @@
        input[type="submit"]:hover{
         box-shadow: 1px 1px 5px #453750;
        }
-       </style>
+    </style>
     <body>
         <div id=card>
         <?php
             echo "<h1> Survey Questions for " . $_SESSION["course"] . "</h2>";
-
-            // Verify the user has already logged in. If not, redirect them to login.php immediately
-            if(!isset($_SESSION["username"])) {
-                header("LOCATION:login.php");
-            }
 
             // Check if there are university questions associated with this course. If there are none, do not display the header for university questions
             if($Uquestion != null) {
@@ -117,13 +118,15 @@
                 echo "</table>";
  
             }
+
             if(isset($_POST["back"])){
                 header("LOCATION:instMain.php");
             }
-            ?>
+
+        ?>
             <form method=post action=reviewSurveyQuestions.php>
                 <input type="submit" value="Go Back" name = "back">
             </form>
             </div>
-        </body>
-    </html>
+    </body>
+</html>

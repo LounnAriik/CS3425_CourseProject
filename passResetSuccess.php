@@ -33,7 +33,7 @@
        input[type="submit"]:hover{
         box-shadow: 1px 1px 5px #453750;
        }
-       </style>
+    </style>
     <body>
     <form method="post" action="passResetSuccess.php">
 
