@@ -1,18 +1,21 @@
 <?php
     session_start();
     require "db.php";
-    
-    $Dquestion = getAllQuestionsAndQIDsForCourse($_SESSION["course"], "Department");
-    $Uquestion = getAllQuestionsAndQIDsForCourse($_SESSION["course"], "University");
-    $Iquestion = getAllQuestionsAndQIDsForCourse($_SESSION["course"], "Instructor");
-    if(isset($_POST["back"])){
-        header("LOCATION:instMain.php");
-    }
 
     // Verify the user has already logged in. If not, redirect them to login.php immediately
     if(!isset($_SESSION["username"])) {
         header("LOCATION:login.php");
     }
+    
+    $Dquestion = getAllQuestionsAndQIDsForCourse($_SESSION["course"], "Department");
+    $Uquestion = getAllQuestionsAndQIDsForCourse($_SESSION["course"], "University");
+    $Iquestion = getAllQuestionsAndQIDsForCourse($_SESSION["course"], "Instructor");
+
+    if(isset($_POST["back"])){
+        header("LOCATION:instMain.php");
+    }
+
+
 ?>
 
 <html>
@@ -225,6 +228,6 @@
             <form method=post action=surveyResponse.php>
                 <input type="submit" value="Go Back" name = "back">
             </form>
-            </div>
+        </div>
     </body>
 </html>
